@@ -1,22 +1,10 @@
 <?php
 
-$arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-$sum = 0;
-$count = 0;
-$max = $arr[0];
-$min = $arr[0];
-$old = 0;
+require_once 'array_operations.php';
+require_once 'comparison_operations.php';
 
-for ($i = 0; $i < count($arr); $i++) {
-  $sum += $arr[$i];
-  $count++;
-  if ($arr[$i] > $max) {
-    $max = $arr[$i];
-  }
-  if ($arr[$i] < $min) {
-    $min = $arr[$i];
-  }
-}
+$arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+$old = 0;
 
 if ($old == 0) {
   echo "old = 0 <br>";
@@ -29,16 +17,21 @@ echo "================ <br>";
 
 $array1 = [1, 2, 3, 4, 5];
 $array2 = [6, 7, 8, 9, 10];
-$array3 = array_merge($array1, $array2);
-foreach ($array3 as $value) {
-  echo $value . " ";
-}
-echo "<br>";
+mergeAndPrintArrays($array1, $array2);
 echo "================ <br>";
 
+$a = 10;
+$b = 10;
+compareValues($a, $b);
 
-echo "sum = $sum <br>";
-echo "count = $count <br>";
-echo "max = $max <br>";
-echo "min = $min <br>";
-echo "average = " . $sum / $count . "<br>";
+$stats = calculateArrayStats($arr);
+echo "sum = {$stats['sum']} <br>";
+echo "count = {$stats['count']} <br>";
+echo "max = {$stats['max']} <br>";
+echo "min = {$stats['min']} <br>";
+echo "average = {$stats['average']} <br>";
+
+$data_type = gettype($arr);
+echo "<pre>";
+var_dump($data_type);
+echo "</pre>";
