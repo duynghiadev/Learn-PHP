@@ -2,121 +2,109 @@
 
 function compareValues($a, $b)
 {
-  // Strict equality comparison
+  // Determine comparison case for switch
+  $comparison = null;
   if ($a === $b) {
-    echo "a === b <br>";
-  } else {
-    echo "a !== b <br>";
+    $comparison = 'equal';
+  } elseif ($a > $b) {
+    $comparison = 'greater';
+  } elseif ($a < $b) {
+    $comparison = 'less';
+  }
+
+  // Switch-case to handle different comparison scenarios
+  switch ($comparison) {
+    case 'equal':
+      echo "a === b (strict equality, same value and type: " . gettype($a) . ")<br>";
+      // Bitwise AND to check binary compatibility
+      if (is_numeric($a) && is_numeric($b)) {
+        echo "Bitwise AND (a & b): " . ($a & $b) . "<br>";
+      }
+      break;
+
+    case 'greater':
+      echo "a > b (a: $a, b: $b)<br>";
+      // Bitwise XOR to highlight differences
+      if (is_numeric($a) && is_numeric($b)) {
+        echo "Bitwise XOR (a ^ b): " . ($a ^ $b) . "<br>";
+      }
+      break;
+
+    case 'less':
+      echo "a < b (a: $a, b: $b)<br>";
+      // Bitwise OR for combined bits
+      if (is_numeric($a) && is_numeric($b)) {
+        echo "Bitwise OR (a | b): " . ($a | $b) . "<br>";
+      }
+      break;
+
+    default:
+      echo "Invalid comparison or non-numeric types detected<br>";
+      break;
   }
   echo "================ <br>";
 
-  // Loose equality comparison
-  if ($a == $b) {
-    echo "a == b <br>";
-  } else {
-    echo "a != b <br>";
+  // Type juggling demonstration
+  try {
+    $looseComparison = ($a == (string)$b) ? "a == b (loose, after type juggling to string)" : "a != b (loose)";
+    echo $looseComparison . "<br>";
+  } catch (TypeError $e) {
+    echo "TypeError in loose comparison: " . $e->getMessage() . "<br>";
   }
   echo "================ <br>";
 
-  // Not equal comparison
-  if ($a != $b) {
-    echo "a != b <br>";
+  // Logical NOT with anonymous function
+  $logicalNot = function ($value, $name) {
+    return !$value ? "!$name evaluates to true" : "$name evaluates to true";
+  };
+  echo $logicalNot($a, 'a') . "<br>";
+  echo $logicalNot($b, 'b') . "<br>";
+  echo "================ <br>";
+
+  // Pre-increment with type checking
+  if (is_numeric($a)) {
+    echo "Pre-increment ++a: " . (++$a) . " (type: " . gettype($a) . ")<br>";
   } else {
-    echo "a == b <br>";
+    echo "Pre-increment skipped: a is not numeric<br>";
   }
   echo "================ <br>";
 
-  // Strict not equal comparison
-  if ($a !== $b) {
-    echo "a !== b <br>";
+  // Post-increment with type checking
+  if (is_numeric($a)) {
+    echo "Post-increment a++: " . ($a++) . "<br>";
+    echo "a after post-increment: " . $a . " (type: " . gettype($a) . ")<br>";
   } else {
-    echo "a === b <br>";
+    echo "Post-increment skipped: a is not numeric<br>";
   }
   echo "================ <br>";
 
-  // Less than comparison
-  if ($a < $b) {
-    echo "a < b <br>";
+  // Pre-decrement with type checking
+  if (is_numeric($b)) {
+    echo "Pre-decrement --b: " . (--$b) . " (type: " . gettype($b) . ")<br>";
   } else {
-    echo "a >= b <br>";
+    echo "Pre-decrement skipped: b is not numeric<br>";
   }
   echo "================ <br>";
 
-  // Greater than comparison
-  if ($a > $b) {
-    echo "a > b <br>";
+  // Post-decrement with type checking
+  if (is_numeric($b)) {
+    echo "Post-decrement b--: " . ($b--) . "<br>";
+    echo "b after post-decrement: " . $b . " (type: " . gettype($b) . ")<br>";
   } else {
-    echo "a <= b <br>";
+    echo "Post-decrement skipped: b is not numeric<br>";
   }
   echo "================ <br>";
 
-  // Less than or equal comparison
-  if ($a <= $b) {
-    echo "a <= b <br>";
-  } else {
-    echo "a > b <br>";
-  }
+  // Complex ternary operator with nested conditions
+  echo "Complex ternary: " . (
+    is_numeric($a) && is_numeric($b)
+    ? ($a > $b ? "a ($a) is greater" : ($a < $b ? "b ($b) is greater" : "a equals b"))
+    : "Non-numeric comparison"
+  ) . "<br>";
   echo "================ <br>";
 
-  // Greater than or equal comparison
-  if ($a >= $b) {
-    echo "a >= b <br>";
-  } else {
-    echo "a < b <br>";
-  }
-  echo "================ <br>";
-
-  // Logical AND
-  if ($a && $b) {
-    echo "a && b <br>";
-  } else {
-    echo "a || b <br>";
-  }
-  echo "================ <br>";
-
-  // Logical OR
-  if ($a || $b) {
-    echo "a || b <br>";
-  } else {
-    echo "a && b <br>";
-  }
-  echo "================ <br>";
-
-  // Logical NOT
-  if (!$a) {
-    echo "!a <br>";
-  } else {
-    echo "a <br>";
-  }
-  echo "================ <br>";
-
-  if (!$b) {
-    echo "!b <br>";
-  } else {
-    echo "b <br>";
-  }
-  echo "================ <br>";
-
-  // Pre-increment
-  echo "Pre-increment ++a: " . (++$a) . "<br>";
-  echo "================ <br>";
-
-  // Post-increment
-  echo "Post-increment a++: " . ($a++) . "<br>";
-  echo "a after post-increment: " . $a . "<br>";
-  echo "================ <br>";
-
-  // Pre-decrement
-  echo "Pre-decrement --b: " . (--$b) . "<br>";
-  echo "================ <br>";
-
-  // Post-decrement
-  echo "Post-decrement b--: " . ($b--) . "<br>";
-  echo "b after post-decrement: " . $b . "<br>";
+  // Null coalescing operator with fallback
+  $c = null;
+  echo "Null coalescing operator (c ?? 'default'): " . ($c ?? 'default') . "<br>";
   echo "================ <br>";
 }
-
-// Example usage
-$a = 5;
-$b = 3;
-compareValues($a, $b);
