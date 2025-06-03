@@ -96,4 +96,27 @@ function compareValues($a, $b)
     echo "b <br>";
   }
   echo "================ <br>";
+
+  // Pre-increment
+  echo "Pre-increment ++a: " . (++$a) . "<br>";
+  echo "================ <br>";
+
+  // Post-increment
+  echo "Post-increment a++: " . ($a++) . "<br>";
+  echo "a after post-increment: " . $a . "<br>";
+  echo "================ <br>";
+
+  // Pre-decrement
+  echo "Pre-decrement --b: " . (--$b) . "<br>";
+  echo "================ <br>";
+
+  // Post-decrement
+  echo "Post-decrement b--: " . ($b--) . "<br>";
+  echo "b after post-decrement: " . $b . "<br>";
+  echo "================ <br>";
 }
+
+// Example usage
+$a = 5;
+$b = 3;
+compareValues($a, $b);
