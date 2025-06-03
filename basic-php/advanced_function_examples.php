@@ -89,7 +89,7 @@ function getSystemConfig(): array
     $config = [
       'environment' => 'production',
       'debug' => false,
-      'timestamp' => date('Y-m-d H:i:s', time()) // Using current time: 04:44 PM +07, June 03, 2025
+      'timestamp' => date('Y-m-d H:i:s', time()) // Using current time: 04:47 PM +07, June 03, 2025
     ];
   }
   return $config;
@@ -176,3 +176,47 @@ function safeObjectProcess(DataContainer $object, callable $modifier): string
   $modifier($cloned);
   return "Safe object processing: Original: $object, Modified: $cloned";
 }
+
+// Anonymous function: Transform value type with dynamic operation
+$transformValueType = function (mixed $value, string $operation = 'default'): string {
+  $originalValue = $value;
+  if (is_scalar($value)) {
+    $value = match ($operation) {
+      'increment' => is_numeric($value) ? $value + 1 : $value,
+      'reverse' => is_string($value) ? strrev($value) : $value,
+      'negate' => is_bool($value) ? !$value : $value,
+      'default' => $value,
+      default => throw new AdvancedFunctionException("Invalid operation: $operation")
+    };
+    return "Anonymous value type transform: Original: $originalValue, Operation: $operation, Result: $value";
+  } elseif (is_array($value)) {
+    $value = array_map(fn($item) => is_numeric($item) ? $item * 2 : $item, $value);
+    return "Anonymous array transform: Original count: " . count($originalValue) . ", Modified count: " . count($value);
+  }
+  throw new AdvancedFunctionException("Unsupported value type: " . gettype($value));
+};
+
+// Anonymous function: Modify reference type (object and pass-by-reference)
+$modifyReferenceType = function (mixed &$value, DataContainer $object) use (&$transformValueType): string {
+  $originalValue = $value;
+  if (is_scalar($value) || is_array($value)) {
+    $value = is_array($value) ? array_merge($value, ['anon_ref']) : ($value . '_anon_ref');
+    $object->increment();
+    // Use another anonymous function to transform value
+    $transformed = $transformValueType($value, 'default');
+    return "Anonymous reference type modify: Original: $originalValue, Modified: $value, Object: $object, Transformed: $transformed";
+  }
+  throw new AdvancedFunctionException("Value must be scalar or array for reference processing");
+};
+
+// Anonymous function: Higher-order function to process with custom anonymous logic
+$processWithCustomLogic = function (mixed $input, callable $processor): string {
+  static $callCount = 0;
+  $callCount++;
+  try {
+    $result = $processor($input);
+    return "Higher-order anonymous process #$callCount: Input: $input, Result: $result";
+  } catch (TypeError $e) {
+    throw new AdvancedFunctionException("Processing failed: " . $e->getMessage());
+  }
+};

@@ -179,3 +179,35 @@ try {
   echo "Error: " . $e->getMessage() . "<br>";
 }
 echo "================ <br>";
+
+try {
+  echo "12. transformValueType:<br>";
+  echo $transformValueType(5, 'increment') . "<br>";
+  echo $transformValueType('hello', 'reverse') . "<br>";
+  echo $transformValueType(true, 'negate') . "<br>";
+  echo $transformValueType([1, 2, 3], 'default') . "<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "13. modifyReferenceType:<br>";
+  $value = "anon_test";
+  $object = new DataContainer("AnonTest");
+  echo "Before: Value: $value, Object: $object<br>";
+  echo $modifyReferenceType($value, $object) . "<br>";
+  echo "After: Value: $value, Object: $object<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "14. processWithCustomLogic:<br>";
+  echo $processWithCustomLogic(10, fn($x) => is_numeric($x) ? $x * 2 : $x) . "<br>";
+  echo $processWithCustomLogic("test", fn($x) => strtoupper($x)) . "<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
