@@ -5,6 +5,22 @@ declare(strict_types=1); // Enable strict typing for production-grade code
 // Custom exception for advanced function errors
 class AdvancedFunctionException extends Exception {}
 
+// Custom class for reference type demonstration
+class DataContainer
+{
+  public function __construct(public string $data, public int $counter = 0) {}
+
+  public function increment(): void
+  {
+    $this->counter++;
+  }
+
+  public function __toString(): string
+  {
+    return "Data: {$this->data}, Counter: {$this->counter}";
+  }
+}
+
 // Function with parameters: Curried function for chained comparisons
 function curryCompare(callable $comparison, mixed ...$initialArgs): callable
 {
@@ -73,7 +89,7 @@ function getSystemConfig(): array
     $config = [
       'environment' => 'production',
       'debug' => false,
-      'timestamp' => date('Y-m-d H:i:s', time()) // Using current time: 04:40 PM +07, June 03, 2025
+      'timestamp' => date('Y-m-d H:i:s', time()) // Using current time: 04:44 PM +07, June 03, 2025
     ];
   }
   return $config;
@@ -112,4 +128,51 @@ function processValue(mixed $value, string $mode = 'strict'): string
     'loose' => "Loose: Value ($value), type: " . gettype($value),
     default => throw new AdvancedFunctionException("Invalid mode: $mode")
   };
+}
+
+// Function with parameters: Process value type (pass-by-value)
+function processValueType(mixed $value): string
+{
+  $originalValue = $value; // Store original for comparison
+  if (is_scalar($value)) {
+    $value = match (gettype($value)) {
+      'integer' => $value + 10,
+      'double' => $value * 2.0,
+      'string' => strtoupper($value),
+      'boolean' => !$value,
+      default => $value
+    };
+    return "Value type processed: Original: $originalValue, Modified: $value, Type: " . gettype($value);
+  } elseif (is_array($value)) {
+    $value[] = 'modified'; // Attempt to modify array
+    return "Array type processed: Original count: " . count($originalValue) . ", Modified count: " . count($value);
+  }
+  throw new AdvancedFunctionException("Unsupported value type: " . gettype($value));
+}
+
+// Function with parameters: Process reference type (pass-by-reference for scalar/array, object by default)
+function processReferenceType(mixed &$value, DataContainer $object): string
+{
+  $originalValue = $value;
+  if (is_scalar($value) || is_array($value)) {
+    $value = is_array($value) ? array_merge($value, ['referenced']) : ($value . '_ref');
+    $object->increment(); // Mutate object
+    return "Reference type processed: Original: $originalValue, Modified: $value, Object: $object";
+  }
+  throw new AdvancedFunctionException("Value must be scalar or array for reference processing");
+}
+
+// Function without parameters: Create and return a new object (reference type)
+function createDataObject(): DataContainer
+{
+  static $counter = 0;
+  return new DataContainer("Object_" . ++$counter);
+}
+
+// Function with parameters: Clone object to avoid mutation (reference type handling)
+function safeObjectProcess(DataContainer $object, callable $modifier): string
+{
+  $cloned = clone $object; // Clone to avoid modifying original
+  $modifier($cloned);
+  return "Safe object processing: Original: $object, Modified: $cloned";
 }

@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 require_once 'array_operations.php';
 require_once 'comparison_operations.php';
-require_once 'function_operations.php';
+require_once 'function_examples.php';
 require_once 'advanced_function_examples.php';
 
 $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -139,6 +139,42 @@ try {
   echo "7. processValue(42, 'strict'): " . processValue(42, 'strict') . "<br>";
   echo "processValue(3.14159, 'strict'): " . processValue(3.14159, 'strict') . "<br>";
   echo "processValue('Hello', 'loose'): " . processValue('Hello', 'loose') . "<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "8. processValueType(42): " . processValueType(42) . "<br>";
+  echo "processValueType(3.14): " . processValueType(3.14) . "<br>";
+  echo "processValueType('test'): " . processValueType('test') . "<br>";
+  echo "processValueType(true): " . processValueType(true) . "<br>";
+  echo "processValueType([1, 2]): " . processValueType([1, 2]) . "<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "9. processReferenceType:<br>";
+  $value = "original";
+  $object = new DataContainer("Test");
+  echo "Before: Value: $value, Object: $object<br>";
+  echo processReferenceType($value, $object) . "<br>";
+  echo "After: Value: $value, Object: $object<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+echo "10. createDataObject: " . createDataObject() . "<br>";
+echo "createDataObject (second call): " . createDataObject() . "<br>";
+echo "================ <br>";
+
+try {
+  echo "11. safeObjectProcess:<br>";
+  $object = new DataContainer("SafeTest");
+  echo safeObjectProcess($object, fn($obj) => $obj->increment()) . "<br>";
 } catch (AdvancedFunctionException $e) {
   echo "Error: " . $e->getMessage() . "<br>";
 }
