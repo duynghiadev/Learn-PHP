@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $arr2 = [
 
@@ -14,49 +14,48 @@ $arr2 = [
         'email' => 'hoang@gmail.com'
     ],
     'address3' => 'PHP'
-    ] ;
+];
 
-    if(!empty($arr2)){
-        foreach($arr2 as $item){
-            if(is_array($item)){
-                if(!empty($item)){
-                    foreach($item as $subArr){
-                        if(is_array($subArr)){
-                            if(!empty($subArr)){
-                                foreach($subArr as $subArr2){
-                                    echo $subArr2.'<br>';
-                                }
+if (!empty($arr2)) {
+    foreach ($arr2 as $item) {
+        if (is_array($item)) {
+            if (!empty($item)) {
+                foreach ($item as $subArr) {
+                    if (is_array($subArr)) {
+                        if (!empty($subArr)) {
+                            foreach ($subArr as $subArr2) {
+                                echo $subArr2 . '<br>';
                             }
                         }
-                        else {
-                            echo $subArr.'<br>';
-                        }
+                    } else {
+                        echo $subArr . '<br>';
                     }
                 }
             }
-            else {
-                echo $item.'<br>';
-            }
+        } else {
+            echo $item . '<br>';
         }
     }
+}
 
 
 
-    // echo $arr2['address1']['name']['Ho'].'<br>';
-    // echo $arr2['address2']['email'].'<br>';
+// echo $arr2['address1']['name']['Ho'].'<br>';
+// echo $arr2['address2']['email'].'<br>';
 
-    // $arr2['address1']['name']['Ten'] = 'Ngoc';
-    // echo $arr2['address1']['name']['Ten'].'<br>';
+// $arr2['address1']['name']['Ten'] = 'Ngoc';
+// echo $arr2['address1']['name']['Ten'].'<br>';
 
-    $arr = array(
-        [
-            'soMot',
-            'soHai',
-            'soBa'
-        ],
-        'JS',
-        'PHP');
-    
+$arr = array(
+    [
+        'soMot',
+        'soHai',
+        'soBa'
+    ],
+    'JS',
+    'PHP'
+);
+
 
     // dùng for
 

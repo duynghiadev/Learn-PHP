@@ -1,5 +1,5 @@
-<?php 
-if(!defined('_CODE')){
+<?php
+if (!defined('_CODE')) {
     die('Access denied...');
 }
 ?>

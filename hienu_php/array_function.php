@@ -1,12 +1,12 @@
 <?php
-$arr = ['CR7','Messi','Kaka'];
+$arr = ['CR7', 'Messi', 'Kaka'];
 
 $arr2 = [
     'address1' => 'HTML',
     'address2' => 'JS',
     'address3' => 'PHP',
     'address4' => 'C++'
-] ;
+];
 
 //echo count($arr2);
 
@@ -19,7 +19,7 @@ echo '</pre>';
 
 // Hàm array_keys
 echo 'Hàm array_key: ';
-$arrKey = array_keys($arr2); 
+$arrKey = array_keys($arr2);
 
 echo '<pre>';
 print_r($arrKey);
@@ -27,7 +27,7 @@ echo '</pre>';
 
 // Hàm array_pop
 
-echo array_pop($arr2).'<br>';
+echo array_pop($arr2) . '<br>';
 
 
 // Hàm is_array
@@ -43,7 +43,7 @@ print_r($arr);
 echo '</pre>';
 
 
-// Hàm array_shift 
+// Hàm array_shift
 echo 'Xoá phần tử đầu tiên : ';
 array_shift($arr);
 echo '<pre>';
@@ -110,11 +110,11 @@ echo '</pre>';
 
 $searchArr = array_search('Messi', $arr);
 
-echo 'Đây là vị trí của KaKa: '. $searchArr ;
+echo 'Đây là vị trí của KaKa: ' . $searchArr;
 
 // Hàm array_slice
 
-$sliceArr = array_slice($arr, 3,3);
+$sliceArr = array_slice($arr, 3, 3);
 echo '<pre>';
 print_r($sliceArr);
 echo '</pre>';

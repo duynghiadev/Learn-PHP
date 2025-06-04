@@ -1,8 +1,8 @@
-<?php 
+<?php
 // Khai báo mảng
-$arr = array('HTML','JS','PHP');
+$arr = array('HTML', 'JS', 'PHP');
 
-$arr2 = ['address1' => 'HTML','address2' => 'JS','address3' => 'PHP'] ;
+$arr2 = ['address1' => 'HTML', 'address2' => 'JS', 'address3' => 'PHP'];
 
 $arrEmpty = [];
 
@@ -12,7 +12,7 @@ $arr2['address4'] = 'NodeJS';
 // $arr2[] = 'C';
 // $arr2[] = 'C++';
 
-array_push($arr,'NodeJs','C','C++','C#');
+array_push($arr, 'NodeJs', 'C', 'C++', 'C#');
 
 // Sửa mảng
 $arr[0] = 'HTMLNEW';
@@ -40,11 +40,8 @@ echo '</pre>';
 
 // dùng foreach
 
-if(!empty($arr2)){
-    foreach($arr2 as $key => $value){
-        echo $value.'<br>';
+if (!empty($arr2)) {
+    foreach ($arr2 as $key => $value) {
+        echo $value . '<br>';
     }
 }
-
-
-

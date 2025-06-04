@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 try{
 $__HOST = '127.0.0.1';
@@ -16,38 +16,34 @@ $__PASS, $options);
 $err = $e->getMessage();
 die()
 }
-mysqli 
+mysqli
 */
 
 
-// Thông tin kết nối 
+// Thông tin kết nối
 const _HOST = 'localhost';
 const _DB = 'hienu_123';
 const _USER = 'root';
 const _PASS = '';
 
 try {
-    if(class_exists('PDO')){
+    if (class_exists('PDO')) {
 
-        $dsn = 'mysql:dbname='._DB.';host='._HOST;
+        $dsn = 'mysql:dbname=' . _DB . ';host=' . _HOST;
 
         $options = [
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8', //Set utf8
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION //Tạo thông báo ra ngoại lệ khi gặp lỗi
-            ];
+        ];
 
-        $conn = new PDO($dsn,_USER,_PASS,$options);
+        $conn = new PDO($dsn, _USER, _PASS, $options);
         // if($conn){
         //     echo ' Kết nối thành công ';
         // }
     }
-
-}catch(Exception $exception){
+} catch (Exception $exception) {
     echo '<div style="color:red; padding: 5px 15px;border: 1px solid red;">';
-    echo $exception -> getMessage().'<br>';
+    echo $exception->getMessage() . '<br>';
     echo '</div>';
     die();
 }
-
-
-

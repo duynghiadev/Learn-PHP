@@ -2,20 +2,20 @@ Thực hành xây dựng chức năng quản lý người dùng:
 
 Phần 1 : Xác thực truy cập
 
-- Đăng nhập 
-- Đăng Ký 
-- Đăng xuất 
+- Đăng nhập
+- Đăng Ký
+- Đăng xuất
 - Quên mật khẩu
 - Kích hoạt tài khoản
 
 Phần 2 : quản lý người dùng
 
-- kiểm tra người dùng đăng nhập 
+- kiểm tra người dùng đăng nhập
 - thêm người dùng
-- sửa và xoá người dùng 
-- hiển thị số users 
-- phân trang 
-- tìm kiếm, lọc dữ liệu 
+- sửa và xoá người dùng
+- hiển thị số users
+- phân trang
+- tìm kiếm, lọc dữ liệu
 
 Thiết kế database:
 
@@ -30,10 +30,10 @@ Thiết kế database:
 + create_at (datetime)
 + update_at (datetime)
 
-- Bảng loginToken: 
+- Bảng loginToken:
 + id - primary key (int)
 + user_Id (int)
-+ token varchar(100) 
++ token varchar(100)
 + create_at (datetime)
 
 

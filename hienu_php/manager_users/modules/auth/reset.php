@@ -34,39 +34,35 @@ if (!empty($token)) {
 
             if (empty($errors)) {
                 // Xử lý việc update mật khẩu
-                $paswordHash = password_hash($filterAll['password'],PASSWORD_DEFAULT);
-                $dataUpdate =[
+                $paswordHash = password_hash($filterAll['password'], PASSWORD_DEFAULT);
+                $dataUpdate = [
                     'password' => $paswordHash,
                     'forgotToken' => null,
                     'update_at' => date('Y-m-d H:i:s')
                 ];
 
                 $updateStatus = update('users', $dataUpdate, "id = '$userId'");
-                if($updateStatus){
+                if ($updateStatus) {
                     setFlashData('msg', 'Thay đổi mật khẩu thành công!!');
                     setFlashData('msg_type', 'success');
                     redirect('?module=auth&action=login');
-                }else {
+                } else {
                     setFlashData('msg', 'Lỗi hệ thống vui lòng thử lại sau!!');
                     setFlashData('msg_type', 'danger');
                 }
-
             } else {
                 setFlashData('msg', 'Vui lòng kiểm tra lại dữ liệu!!');
                 setFlashData('msg_type', 'danger');
                 setFlashData('errors', $errors);
-                redirect('?module=auth&action=reset&token='.$token);
+                redirect('?module=auth&action=reset&token=' . $token);
             }
-
-
-
         }
 
 
 
-$msg = getFlashData('msg');
-$msg_type = getFlashData('msg_type');
-$errors = getFlashData('errors');
+        $msg = getFlashData('msg');
+        $msg_type = getFlashData('msg_type');
+        $errors = getFlashData('errors');
 
 
 ?>

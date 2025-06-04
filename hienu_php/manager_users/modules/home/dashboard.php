@@ -1,15 +1,15 @@
-<?php 
-if(!defined('_CODE')){
+<?php
+if (!defined('_CODE')) {
     die('Access denied...');
 }
 $data = [
     'pageTitle' => 'Trang Dashboard'
 ];
-layouts('header',$data);
+layouts('header', $data);
 
 // Kiểm tra trạng thái đăng nhập
 
-if(!isLogin()){
+if (!isLogin()) {
     redirect('?module=auth&action=login');
 }
 
@@ -18,6 +18,6 @@ if(!isLogin()){
 <h1>DASHBOARD</h1>
 
 
-<?php 
+<?php
 layouts('footer');
 ?>
