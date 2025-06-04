@@ -313,3 +313,29 @@ try {
   echo "Error: " . $e->getMessage() . "<br>";
 }
 echo "================ <br>";
+
+// Examples for 2D arrays
+echo "=== 2D Array Examples ===<br>";
+
+try {
+  $array2D1 = [[1, 2, 3], [4, 5, 6]];
+  $stats2D = calculate2DArrayStats($array2D1);
+  echo "2D Array Stats ([[1, 2, 3], [4, 5, 6]]):<br>";
+  echo "Sum: {$stats2D['sum']}<br>";
+  echo "Count: {$stats2D['count']}<br>";
+  echo "Max: {$stats2D['max']}<br>";
+  echo "Min: {$stats2D['min']}<br>";
+  echo "Average: {$stats2D['average']}<br>";
+} catch (InvalidArgumentException $e) {
+  echo "Error: {$e->getMessage()}<br>";
+}
+echo "================<br>";
+
+try {
+  $array2D2 = [[7, 8], [9, 10]];
+  echo "Merge and Print 2D Arrays ([[1, 2], [3, 4]] and [[7, 8], [9, 10]]):<br>";
+  mergeAndPrint2DArrays([[1, 2], [3, 4]], $array2D2);
+} catch (InvalidArgumentException $e) {
+  echo "Error: {$e->getMessage()}<br>";
+}
+echo "================<br>";
