@@ -89,7 +89,7 @@ function getSystemConfig(): array
     $config = [
       'environment' => 'production',
       'debug' => false,
-      'timestamp' => date('Y-m-d H:i:s', time()) // Using current time: 04:47 PM +07, June 03, 2025
+      'timestamp' => '2025-06-04 09:44:00' // Updated to 09:44 AM +07, June 04, 2025
     ];
   }
   return $config;

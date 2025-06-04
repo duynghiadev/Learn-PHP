@@ -5,10 +5,15 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-require_once 'array_operations.php';
-require_once 'comparison_operations.php';
-require_once 'function_examples.php';
+// Use a mix of include, include_once, require, and require_once
+include_once 'array_operations.php'; // Changed from include to include_once
+include_once 'comparison_operations.php';
+require 'function_examples.php';
 require_once 'advanced_function_examples.php';
+require_once 'file_inclusion_examples.php';
+require_once 'value_type_utils.php';
+include 'reference_type_utils.php';
+include_once 'anonymous_function_utils.php';
 
 $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 $old = 0;
@@ -208,6 +213,103 @@ try {
   echo $processWithCustomLogic(10, fn($x) => is_numeric($x) ? $x * 2 : $x) . "<br>";
   echo $processWithCustomLogic("test", fn($x) => strtoupper($x)) . "<br>";
 } catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+// Examples from file_inclusion_examples.php
+echo "=== Examples from file_inclusion_examples.php ===<br>";
+
+try {
+  echo "1. combineValueProcessing(5): " . combineValueProcessing(5, ['strict' => true, 'transform' => true]) . "<br>";
+  echo "combineValueProcessing('5', loose): " . combineValueProcessing("5", ['strict' => false, 'transform' => false]) . "<br>";
+} catch (FileInclusionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "2. combineReferenceProcessing:<br>";
+  $value = "ref_test";
+  $object = new DataContainer("RefTest");
+  echo "Before: Value: $value, Object: $object<br>";
+  echo combineReferenceProcessing($value, $object) . "<br>";
+  echo "After: Value: $value, Object: $object<br>";
+} catch (FileInclusionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "3. processIncludedValue:<br>";
+  echo $processIncludedValue(10) . "<br>";
+  echo $processIncludedValue(['a', 2]) . "<br>";
+} catch (FileInclusionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "4. processIncludedReference:<br>";
+  $value = "include_ref";
+  $object = new DataContainer("IncludeTest");
+  echo "Before: Value: $value, Object: $object<br>";
+  echo $processIncludedReference($value, $object) . "<br>";
+  echo "After: Value: $value, Object: $object<br>";
+} catch (FileInclusionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+// Examples from value_type_utils.php
+echo "=== Examples from value_type_utils.php ===<br>";
+
+try {
+  echo "1. processScalarValue(42): " . processScalarValue(42) . "<br>";
+  echo "processScalarValue('test'): " . processScalarValue('test') . "<br>";
+} catch (ValueTypeException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "2. transformValueArray([1, 'abc']): " . implode(", ", $transformValueArray([1, 'abc'])) . "<br>";
+} catch (ValueTypeException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+// Examples from reference_type_utils.php
+echo "=== Examples from reference_type_utils.php ===<br>";
+
+try {
+  echo "1. modifyReference:<br>";
+  $value = "ref_util_test";
+  $object = new DataContainer("RefUtilTest");
+  echo "Before: Value: $value, Object: $object<br>";
+  echo modifyReference($value, $object) . "<br>";
+  echo "After: Value: $value, Object: $object<br>";
+} catch (ReferenceTypeException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+try {
+  echo "2. cloneAndModifyObject: " . $cloneAndModifyObject(new DataContainer("CloneTest")) . "<br>";
+} catch (ReferenceTypeException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================ <br>";
+
+// Examples from anonymous_function_utils.php
+echo "=== Examples from anonymous_function_utils.php ===<br>";
+
+try {
+  echo "1. combineValueAndReference:<br>";
+  $value = "combined_test";
+  $object = new DataContainer("CombinedTest");
+  echo $combineValueAndReference($value, $object) . "<br>";
+} catch (AnonymousFunctionException $e) {
   echo "Error: " . $e->getMessage() . "<br>";
 }
 echo "================ <br>";
