@@ -339,3 +339,42 @@ try {
   echo "Error: {$e->getMessage()}<br>";
 }
 echo "================<br>";
+
+// Examples for array_keys
+echo "=== Array Keys Examples ===<br>";
+
+try {
+  // Test array for demonstration
+  $testArray = [
+    'name' => 'John',
+    'age' => 30,
+    'skills' => ['PHP', 'Laravel', 'MySQL'],
+    'active' => true
+  ];
+
+  // Demonstrate array_keys functions
+  echo "1. Basic array_keys demonstration:<br>";
+  $results = demonstrateArrayKeys($testArray);
+  echo "All keys: " . implode(", ", $results['all_keys']) . "<br>";
+  echo "Value specific keys: " . implode(", ", $results['value_specific_keys']) . "<br>";
+  echo "Filtered keys: " . implode(", ", $results['filtered_keys']) . "<br>";
+  echo "Nested keys: " . implode(", ", $results['nested_keys']) . "<br>";
+  echo "================<br>";
+
+  // Demonstrate processArrayKeys
+  echo "2. Process array keys with custom logic:<br>";
+  $processedKeys = processArrayKeys($testArray, function ($key) {
+    return strtoupper($key);
+  });
+  echo "Processed keys: " . implode(", ", $processedKeys) . "<br>";
+  echo "================<br>";
+
+  // Demonstrate manipulateArrayKeys
+  echo "3. Manipulate array keys with different modes:<br>";
+  echo "Prefix mode: " . implode(", ", $manipulateArrayKeys($testArray, 'prefix')) . "<br>";
+  echo "String keys: " . implode(", ", $manipulateArrayKeys($testArray, 'string')) . "<br>";
+  echo "Default mode: " . implode(", ", $manipulateArrayKeys($testArray, 'default')) . "<br>";
+} catch (AdvancedFunctionException $e) {
+  echo "Error: " . $e->getMessage() . "<br>";
+}
+echo "================<br>";

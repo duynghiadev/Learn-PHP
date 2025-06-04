@@ -100,7 +100,7 @@ if (!function_exists('getSystemConfig')) {
       $config = [
         'environment' => 'production',
         'debug' => false,
-        'timestamp' => '2025-06-04 09:57:00' // Updated to 09:57 AM +07, June 04, 2025
+        'timestamp' => '2025-06-04 10:28:00' // Updated to 10:28 AM +07, June 04, 2025
       ];
     }
     return $config;
@@ -250,5 +250,59 @@ if (!isset($processWithCustomLogic)) {
     } catch (TypeError $e) {
       throw new AdvancedFunctionException("Processing failed: " . $e->getMessage());
     }
+  };
+}
+
+// Function to demonstrate array_keys with different use cases
+if (!function_exists('demonstrateArrayKeys')) {
+  function demonstrateArrayKeys(array $input): array
+  {
+    $results = [];
+
+    // Basic array_keys usage
+    $results['all_keys'] = array_keys($input);
+
+    // Get keys for specific value
+    $searchValue = isset($input[0]) ? $input[0] : null;
+    $results['value_specific_keys'] = array_keys($input, $searchValue);
+
+    // Get keys with strict comparison
+    $results['strict_keys'] = array_keys($input, $searchValue, true);
+
+    // Combine with other array functions
+    $results['filtered_keys'] = array_keys(
+      array_filter($input, fn($value) => is_scalar($value))
+    );
+
+    // Get keys of nested arrays
+    $results['nested_keys'] = array_keys(
+      array_filter($input, fn($value) => is_array($value))
+    );
+
+    return $results;
+  }
+}
+
+// Function to process array keys with custom logic
+if (!function_exists('processArrayKeys')) {
+  function processArrayKeys(array $input, callable $keyProcessor): array
+  {
+    $keys = array_keys($input);
+    return transformData($keys, $keyProcessor, false);
+  }
+}
+
+// Anonymous function: Advanced array key manipulation
+if (!isset($manipulateArrayKeys)) {
+  $manipulateArrayKeys = function (array $input, string $mode = 'default'): array {
+    $keys = array_keys($input);
+
+    return match ($mode) {
+      'prefix' => array_map(fn($key) => "key_{$key}", $keys),
+      'numeric' => array_filter($keys, 'is_numeric'),
+      'string' => array_filter($keys, 'is_string'),
+      'default' => $keys,
+      default => throw new AdvancedFunctionException("Invalid mode for key manipulation: $mode")
+    };
   };
 }
