@@ -1,20 +1,33 @@
 <?php
 
-function calculateArrayStats($arr)
+function calculateArrayStats(array $arr): array
 {
+  if (empty($arr)) {
+    return [
+      'sum' => 0,
+      'count' => 0,
+      'max' => null,
+      'min' => null,
+      'average' => null
+    ];
+  }
+
   $sum = 0;
   $count = 0;
   $max = $arr[0];
   $min = $arr[0];
 
-  for ($i = 0; $i < count($arr); $i++) {
-    $sum += $arr[$i];
-    $count++;
-    if ($arr[$i] > $max) {
-      $max = $arr[$i];
+  foreach ($arr as $value) {
+    if (!is_numeric($value)) {
+      throw new InvalidArgumentException("Array must contain only numeric values, got " . gettype($value) . " ('$value')");
     }
-    if ($arr[$i] < $min) {
-      $min = $arr[$i];
+    $sum += (float)$value;
+    $count++;
+    if ($value > $max) {
+      $max = $value;
+    }
+    if ($value < $min) {
+      $min = $value;
     }
   }
 
@@ -23,11 +36,11 @@ function calculateArrayStats($arr)
     'count' => $count,
     'max' => $max,
     'min' => $min,
-    'average' => $sum / $count
+    'average' => $count > 0 ? $sum / $count : null
   ];
 }
 
-function mergeAndPrintArrays($array1, $array2)
+function mergeAndPrintArrays(array $array1, array $array2): void
 {
   $array3 = array_merge($array1, $array2);
   foreach ($array3 as $value) {

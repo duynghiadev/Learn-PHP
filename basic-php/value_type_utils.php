@@ -7,7 +7,7 @@ class ValueTypeException extends Exception {}
 
 // Include a helper file (simulated, assuming it exists)
 try {
-  if (!@include_once 'array_operations.php') { // Changed from include to include_once
+  if (!@include_once 'array_operations.php') {
     throw new ValueTypeException("Failed to include_once array_operations.php");
   }
 } catch (ValueTypeException $e) {
@@ -28,9 +28,14 @@ function processScalarValue(mixed $value): string
     'boolean' => "Boolean: " . ($value ? 'true' : 'false'),
     default => throw new ValueTypeException("Unsupported scalar type: " . gettype($value))
   };
-  // Use included function if available
-  if (function_exists('calculateArrayStats')) {
-    $result .= "; Stats: " . print_r(calculateArrayStats([$value]), true);
+  // Use included function if available and value is numeric
+  if (function_exists('calculateArrayStats') && is_numeric($value)) {
+    try {
+      $stats = calculateArrayStats([$value]);
+      $result .= "; Stats: " . print_r($stats, true);
+    } catch (InvalidArgumentException $e) {
+      $result .= "; Stats error: " . $e->getMessage();
+    }
   }
   return $result;
 }

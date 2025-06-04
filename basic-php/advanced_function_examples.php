@@ -100,7 +100,7 @@ if (!function_exists('getSystemConfig')) {
       $config = [
         'environment' => 'production',
         'debug' => false,
-        'timestamp' => '2025-06-04 09:54:00' // Updated to 09:54 AM +07, June 04, 2025
+        'timestamp' => '2025-06-04 09:57:00' // Updated to 09:57 AM +07, June 04, 2025
       ];
     }
     return $config;
