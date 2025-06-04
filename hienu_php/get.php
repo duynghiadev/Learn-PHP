@@ -1,8 +1,7 @@
 <?php
 
-if(isset($_GET['action'])){
+if (isset($_GET['action'])) {
     echo $_GET['action'];
-}
-else {
+} else {
     echo 'Giá trị không tồn tại';
 }
