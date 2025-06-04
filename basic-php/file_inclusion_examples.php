@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1); // Enable strict typing for production-grade code
+declare(strict_types=1); // Enable strict typing
 
 // Custom exception for file inclusion errors
 class FileInclusionException extends Exception {}
 
 // Attempt to include files with different directives, handling errors
 try {
-  // include: Non-fatal if missing, allows multiple inclusions
-  if (!@include 'array_operations.php') {
-    throw new FileInclusionException("Failed to include array_operations.php");
+  // include_once: Non-fatal if missing, single inclusion
+  if (!@include_once 'array_operations.php') {
+    throw new FileInclusionException("Failed to include_once array_operations.php");
   }
 } catch (FileInclusionException $e) {
   error_log($e->getMessage());
@@ -27,8 +27,8 @@ try {
 }
 
 try {
-  // require: Fatal if missing, allows multiple inclusions
-  require 'function_examples.php';
+  // require_once: Fatal if missing, single inclusion
+  require_once 'function_examples.php'; // Changed from require to require_once
 } catch (Error $e) {
   error_log("Fatal error: {$e->getMessage()}");
   echo "Fatal error: {$e->getMessage()}<br>";

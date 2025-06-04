@@ -6,9 +6,9 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 // Use a mix of include, include_once, require, and require_once
-include_once 'array_operations.php'; // Changed from include to include_once
+include_once 'array_operations.php';
 include_once 'comparison_operations.php';
-require 'function_examples.php';
+require_once 'function_examples.php'; // Changed from require to require_once
 require_once 'advanced_function_examples.php';
 require_once 'file_inclusion_examples.php';
 require_once 'value_type_utils.php';
@@ -250,7 +250,7 @@ try {
 echo "================ <br>";
 
 try {
-  echo "4. processIncludedReference:<br>";
+  echo "4. function processIncludedReference:<br>";
   $value = "include_ref";
   $object = new DataContainer("IncludeTest");
   echo "Before: Value: $value, Object: $object<br>";
