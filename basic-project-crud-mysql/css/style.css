@@ -1,0 +1,188 @@
+body {
+  background-color: #f4f7fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #4a6de5;
+  outline: none;
+}
+
+.error {
+  color: #e63946;
+  font-size: 12px;
+  margin-top: 6px;
+  display: none;
+  /* Hidden by default for client-side errors */
+}
+
+.error.server-error {
+  display: block;
+  /* Always show server-side errors */
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a6de5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #3a55b8;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #666;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+}
+
+td {
+  color: #333;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.no-items {
+  color: #888;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons a,
+.action-buttons button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+}
+
+.action-buttons a {
+  background-color: #4a6de5;
+  color: white;
+}
+
+.action-buttons a:hover {
+  background-color: #3a55b8;
+}
+
+.action-buttons button {
+  background-color: #e63946;
+  color: white;
+  border: none;
+}
+
+.action-buttons button:hover {
+  background-color: #b32b35;
+}
+
+.logout-button {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.logout-button button {
+  width: auto;
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.logout-button button:hover {
+  background-color: #5a6268;
+}
