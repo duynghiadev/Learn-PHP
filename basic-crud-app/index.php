@@ -7,6 +7,12 @@ require_once 'functions.php';
 
 session_start();
 
+// Kiểm tra đăng nhập
+if (!isset($_COOKIE['user_token']) || !verifyUserToken($_COOKIE['user_token'])) {
+  header('Location: login.php');
+  exit;
+}
+
 // Initialize data store if not set
 if (!isset($_SESSION['dataStore'])) {
   $_SESSION['dataStore'] = [
@@ -29,18 +35,27 @@ $searchQuery = $_GET['search'] ?? '';
 $data = getSortedData($sortBy, $sortOrder, $searchQuery);
 transformForDisplay($data);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>CRUD Application</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
 </head>
 
 <body>
   <div class="container">
-    <h1>CRUD Application</h1>
+    <div class="header">
+      <h1>CRUD Application</h1>
+      <div class="user-info">
+        Welcome, <?= htmlspecialchars(getUserByToken($_COOKIE['user_token'])['username'] ?? 'User') ?>
+        <a href="logout.php" class="logout-btn">Logout</a>
+      </div>
+    </div>
 
     <!-- Error Display -->
     <?php if (isset($errors['general'])): ?>
@@ -58,27 +73,25 @@ transformForDisplay($data);
     </form>
 
     <!-- Create/Edit Form -->
-    <form action="process.php" method="POST" class="form-group">
+    <form action="process.php" method="POST" class="form-group" id="crud-form">
       <?php if ($editItem): ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars((string)$editItem['id']) ?>">
       <?php endif; ?>
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name"
-          value="<?= htmlspecialchars($editItem['name'] ?? '') ?>">
+        <input type="text" name="name" id="name" value="<?= htmlspecialchars($editItem['name'] ?? '') ?>">
         <?php if (isset($errors['name'])): ?>
           <p class="error"><?= htmlspecialchars($errors['name']) ?></p>
         <?php endif; ?>
       </div>
       <div class="form-group">
         <label for="value">Value</label>
-        <input type="number" name="value" id="value" step="0.01" required
-          value="<?= htmlspecialchars((string)($editItem['value'] ?? '')) ?>">
+        <input type="number" name="value" id="value" step="0.01" required value="<?= htmlspecialchars((string)($editItem['value'] ?? '')) ?>">
         <?php if (isset($errors['value'])): ?>
           <p class="error"><?= htmlspecialchars($errors['value']) ?></p>
         <?php endif; ?>
       </div>
-      <button type="submit" name="action" value="<?= $editItem ? 'update' : 'create' ?>">
+      <button type="submit" name="crud_action" value="<?= $editItem ? 'update' : 'create' ?>">
         <?= $editItem ? 'Update' : 'Create' ?> Item
       </button>
     </form>
@@ -88,7 +101,7 @@ transformForDisplay($data);
     <?php if (empty($data)): ?>
       <p class="no-items">No items found.</p>
     <?php else: ?>
-      <table>
+      <table id="data-table">
         <thead>
           <tr>
             <th>
@@ -118,10 +131,9 @@ transformForDisplay($data);
               <td>
                 <div class="action-buttons">
                   <a href="?edit_id=<?= htmlspecialchars((string)$item['id']) ?>">Edit</a>
-                  <form action="process.php" method="POST" style="display: inline;">
+                  <form action="process.php" method="POST" style="display: inline;" class="delete-form">
                     <input type="hidden" name="id" value="<?= htmlspecialchars((string)$item['id']) ?>">
-                    <button type="submit" name="action" value="delete"
-                      onclick="return confirm('Are you sure?')">Delete</button>
+                    <button type="submit" name="crud_action" value="delete">Delete</button>
                   </form>
                 </div>
               </td>
@@ -131,6 +143,124 @@ transformForDisplay($data);
       </table>
     <?php endif; ?>
   </div>
+
+  <script>
+    // Local Storage handling for data
+    function syncToLocalStorage() {
+      const data = <?php echo json_encode($data); ?>;
+      localStorage.setItem('crudData', JSON.stringify(data));
+      // Sync user token
+      const userToken = '<?php echo isset($_COOKIE['user_token']) ? $_COOKIE['user_token'] : ''; ?>';
+      if (userToken) {
+        localStorage.setItem('userToken', userToken);
+      }
+    }
+
+    function loadFromLocalStorage() {
+      const storedData = localStorage.getItem('crudData');
+      if (storedData) {
+        const data = JSON.parse(storedData);
+        const tbody = document.querySelector('#data-table tbody');
+        if (tbody && !<?php echo json_encode(!empty($data)); ?>) {
+          tbody.innerHTML = '';
+          data.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                            <td>${item.id}</td>
+                            <td>${item.display_name}</td>
+                            <td>${item.value}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="?edit_id=${item.id}">Edit</a>
+                                    <form action="process.php" method="POST" style="display: inline;" class="delete-form">
+                                        <input type="hidden" name="id" value="${item.id}">
+                                        <button type="submit" name="crud_action" value="delete">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        `;
+            tbody.appendChild(tr);
+          });
+        }
+      }
+    }
+
+    // Toast notifications
+    function showToast(message, type = 'info') {
+      Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: type === 'error' ? "#dc2626" : "#22c55e",
+        className: type
+      }).showToast();
+    }
+
+    // Form submission handling
+    document.querySelector('#crud-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('process.php', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          showToast(result.message || 'Operation successful!', 'success');
+          syncToLocalStorage();
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          showToast(result.message || 'Operation failed!', 'error');
+        }
+      } catch (error) {
+        showToast('Network error occurred!', 'error');
+      }
+    });
+
+    // Delete confirmation
+    document.querySelectorAll('.delete-form').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!confirm('Are you sure you want to delete this item?')) return;
+
+        const formData = new FormData(form);
+        try {
+          const response = await fetch('process.php', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          const result = await response.json();
+          if (response.ok && result.success) {
+            showToast(result.message || 'Item deleted successfully!', 'success');
+            syncToLocalStorage();
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            showToast(result.message || 'Delete failed!', 'error');
+          }
+        } catch (error) {
+          showToast('Network error occurred!', 'error');
+        }
+      });
+    });
+
+    // Initialize Local Storage
+    window.addEventListener('load', () => {
+      loadFromLocalStorage();
+      syncToLocalStorage();
+    });
+  </script>
 </body>
 
 </html>

@@ -100,3 +100,82 @@ function sanitizeItem(array $input): array
     'value' => (float)($input['value'] ?? 0)
   ];
 }
+
+/**
+ * Validates user credentials
+ *
+ * @param string $username
+ * @param string $password
+ * @return bool
+ */
+function validateUser(string $username, string $password): bool
+{
+  $users = $_SESSION['users'] ?? [];
+  return isset($users[$username]) && password_verify($password, $users[$username]['password']);
+}
+
+/**
+ * Creates a new user
+ *
+ * @param string $username
+ * @param string $password
+ * @return bool
+ */
+function createUser(string $username, string $password): bool
+{
+  if (!isset($_SESSION['users'])) {
+    $_SESSION['users'] = [];
+  }
+
+  if (isset($_SESSION['users'][$username])) {
+    return false;
+  }
+
+  $_SESSION['users'][$username] = [
+    'username' => $username,
+    'password' => password_hash($password, PASSWORD_DEFAULT)
+  ];
+
+  // Lưu vào local storage qua cookie để đồng bộ client-side
+  setcookie('user_data', json_encode(['username' => $username]), time() + (7 * 24 * 3600), '/');
+  return true;
+}
+
+/**
+ * Generates a user token
+ *
+ * @param string $username
+ * @return string
+ */
+function generateUserToken(string $username): string
+{
+  $token = bin2hex(random_bytes(16));
+  $_SESSION['tokens'][$token] = [
+    'username' => $username,
+    'expires' => time() + (7 * 24 * 3600) // 7 days
+  ];
+  return $token;
+}
+
+/**
+ * Verifies a user token
+ *
+ * @param string $token
+ * @return bool
+ */
+function verifyUserToken(string $token): bool
+{
+  return isset($_SESSION['tokens'][$token]) &&
+    $_SESSION['tokens'][$token]['expires'] > time();
+}
+
+/**
+ * Gets user by token
+ *
+ * @param string $token
+ * @return array|null
+ */
+function getUserByToken(string $token): ?array
+{
+  return $_SESSION['tokens'][$token] ?? null;
+}

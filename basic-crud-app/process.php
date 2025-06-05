@@ -1,12 +1,18 @@
 <?php
 // File: process.php
-
 declare(strict_types=1);
 
 require_once '../basic-php/advanced_function_examples.php';
 require_once 'functions.php';
 
 session_start();
+
+// Kiểm tra xác thực
+if (!isset($_COOKIE['user_token']) || !verifyUserToken($_COOKIE['user_token'])) {
+  header('Content-Type: application/json', true, 401);
+  echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
+  exit;
+}
 
 /**
  * Handles the CRUD operations based on the action.
@@ -28,11 +34,13 @@ class CrudHandler
    */
   public function process(): void
   {
-    if (!isset($_POST['action'])) {
-      throw new AdvancedFunctionException('No action specified');
+    if (!isset($_POST['crud_action'])) {
+      header('Content-Type: application/json', true, 400);
+      echo json_encode(['success' => false, 'message' => 'No action specified']);
+      exit;
     }
 
-    $action = $_POST['action'];
+    $action = $_POST['crud_action'];
 
     try {
       match ($action) {
@@ -43,14 +51,17 @@ class CrudHandler
       };
 
       if (!empty($this->errors)) {
-        $_SESSION['errors'] = $this->errors;
+        header('Content-Type: application/json', true, 400);
+        echo json_encode(['success' => false, 'message' => implode(', ', $this->errors)]);
+        exit;
       }
 
-      header('Location: index.php');
+      header('Content-Type: application/json');
+      echo json_encode(['success' => true, 'message' => ucfirst($action) . ' successful']);
       exit;
     } catch (AdvancedFunctionException $e) {
-      $_SESSION['errors']['general'] = $e->getMessage();
-      header('Location: index.php');
+      header('Content-Type: application/json', true, 400);
+      echo json_encode(['success' => false, 'message' => $e->getMessage()]);
       exit;
     }
   }
