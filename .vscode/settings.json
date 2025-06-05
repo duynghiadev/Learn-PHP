@@ -4,6 +4,7 @@
     "CUSTOMREQUEST",
     "HTTPHEADER",
     "POSTFIELDS",
-    "RETURNTRANSFER"
+    "RETURNTRANSFER",
+    "Toastify"
   ]
 }

@@ -13,6 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $username = trim($_POST['username'] ?? '');
   $password = trim($_POST['password'] ?? '');
 
+  $users = $_SESSION['users'] ?? [];
+  if (!isset($users[$username])) {
+    header('Content-Type: application/json', true, 401);
+    echo json_encode(['success' => false, 'message' => 'Account not found']);
+    exit;
+  }
+
   if (validateUser($username, $password)) {
     $token = generateUserToken($username);
     setcookie('user_token', $token, time() + (7 * 24 * 3600), '/');
@@ -81,8 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } = JSON.parse(userData);
         document.querySelector('#username').value = username;
       }
-      // Clear userToken on login page load to prevent stale tokens
-      localStorage.removeItem('userToken');
     });
 
     // Form submission handling

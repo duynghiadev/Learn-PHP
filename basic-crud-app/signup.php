@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   } else {
     if (createUser($username, $password)) {
+      setcookie('user_data', json_encode(['username' => $username]), time() + (7 * 24 * 3600), '/');
       header('Content-Type: application/json');
       echo json_encode(['success' => true, 'message' => 'Sign up successful! Please login.']);
       exit;
@@ -59,11 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form action="signup.php" method="POST" class="form-group" id="signup-form">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" required>
+        <input type="text" name="username" id="username">
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password">
       </div>
       <button type="submit">Sign Up</button>
     </form>
@@ -74,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     function showToast(message, type = 'info') {
       Toastify({
         text: message,
-        duration: 3000,
+        duration: 2000,
         gravity: "top",
         position: "right",
         backgroundColor: type === 'error' ? "#dc2626" : "#22c55e",
@@ -84,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Load user data from local storage
     window.addEventListener('load', () => {
-      const userData = localStorage.getItem('userData');
+      const userData = document.getElementById('localStorage').getItem('userData');
       if (userData) {
         const {
           username
