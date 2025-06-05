@@ -34,13 +34,16 @@ class CrudHandler
    */
   public function process(): void
   {
-    if (!isset($_POST['crud_action'])) {
+    // Debug: Log received POST data
+    file_put_contents('debug.log', date('Y-m-d H:i:s') . " - POST: " . print_r($_POST, true) . "\n", FILE_APPEND);
+
+    if (!isset($_POST['crud_action']) || empty($_POST['crud_action'])) {
       header('Content-Type: application/json', true, 400);
       echo json_encode(['success' => false, 'message' => 'No action specified']);
       exit;
     }
 
-    $action = $_POST['crud_action'];
+    $action = trim($_POST['crud_action']);
 
     try {
       match ($action) {

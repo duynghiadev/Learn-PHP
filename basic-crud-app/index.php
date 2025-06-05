@@ -76,6 +76,9 @@ transformForDisplay($data);
     <form action="process.php" method="POST" class="form-group" id="crud-form">
       <?php if ($editItem): ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars((string)$editItem['id']) ?>">
+        <input type="hidden" name="crud_action" value="update">
+      <?php else: ?>
+        <input type="hidden" name="crud_action" value="create">
       <?php endif; ?>
       <div class="form-group">
         <label for="name">Name</label>
@@ -91,7 +94,7 @@ transformForDisplay($data);
           <p class="error"><?= htmlspecialchars($errors['value']) ?></p>
         <?php endif; ?>
       </div>
-      <button type="submit" name="crud_action" value="<?= $editItem ? 'update' : 'create' ?>">
+      <button type="submit">
         <?= $editItem ? 'Update' : 'Create' ?> Item
       </button>
     </form>
@@ -133,7 +136,8 @@ transformForDisplay($data);
                   <a href="?edit_id=<?= htmlspecialchars((string)$item['id']) ?>">Edit</a>
                   <form action="process.php" method="POST" style="display: inline;" class="delete-form">
                     <input type="hidden" name="id" value="<?= htmlspecialchars((string)$item['id']) ?>">
-                    <button type="submit" name="crud_action" value="delete">Delete</button>
+                    <input type="hidden" name="crud_action" value="delete">
+                    <button type="submit">Delete</button>
                   </form>
                 </div>
               </td>
@@ -174,7 +178,8 @@ transformForDisplay($data);
                                     <a href="?edit_id=${item.id}">Edit</a>
                                     <form action="process.php" method="POST" style="display: inline;" class="delete-form">
                                         <input type="hidden" name="id" value="${item.id}">
-                                        <button type="submit" name="crud_action" value="delete">Delete</button>
+                                        <input type="hidden" name="crud_action" value="delete">
+                                        <button type="submit">Delete</button>
                                     </form>
                                 </div>
                             </td>
@@ -203,6 +208,11 @@ transformForDisplay($data);
       const form = e.target;
       const formData = new FormData(form);
 
+      // Debug: Log FormData entries
+      for (let [key, value] of formData.entries()) {
+        console.log(`FormData: ${key} = ${value}`);
+      }
+
       try {
         const response = await fetch('process.php', {
           method: 'POST',
@@ -216,12 +226,12 @@ transformForDisplay($data);
         if (response.ok && result.success) {
           showToast(result.message || 'Operation successful!', 'success');
           syncToLocalStorage();
-          setTimeout(() => window.location.reload(), 1000);
+          setTimeout(() => window.location.href = 'index.php', 1000); // Chuyển về index.php
         } else {
           showToast(result.message || 'Operation failed!', 'error');
         }
       } catch (error) {
-        showToast('Network error occurred!', 'error');
+        showToast('Network error occurred: ' + error.message, 'error');
       }
     });
 
@@ -232,6 +242,12 @@ transformForDisplay($data);
         if (!confirm('Are you sure you want to delete this item?')) return;
 
         const formData = new FormData(form);
+
+        // Debug: Log FormData entries
+        for (let [key, value] of formData.entries()) {
+          console.log(`Delete FormData: ${key} = ${value}`);
+        }
+
         try {
           const response = await fetch('process.php', {
             method: 'POST',
@@ -245,12 +261,12 @@ transformForDisplay($data);
           if (response.ok && result.success) {
             showToast(result.message || 'Item deleted successfully!', 'success');
             syncToLocalStorage();
-            setTimeout(() => window.location.reload(), 1000);
+            setTimeout(() => window.location.href = 'index.php', 1000); // Chuyển về index.php
           } else {
             showToast(result.message || 'Delete failed!', 'error');
           }
         } catch (error) {
-          showToast('Network error occurred!', 'error');
+          showToast('Network error occurred: ' + error.message, 'error');
         }
       });
     });
