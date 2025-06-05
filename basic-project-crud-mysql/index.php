@@ -219,11 +219,6 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
   <div class="container">
     <h1>CRUD Application</h1>
 
-    <!-- Error Display -->
-    <?php if (isset($errors['general'])): ?>
-      <p class="error"><?= htmlspecialchars($errors['general']) ?></p>
-    <?php endif; ?>
-
     <!-- Create/Edit Form -->
     <form action="process.php" method="POST" class="form-group">
       <?php if ($editItem): ?>

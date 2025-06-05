@@ -37,11 +37,7 @@ if (isset($_POST['action'])) {
         'name' => trim($_POST['name'] ?? ''),
         'value' => floatval($_POST['value'] ?? 0)
       ];
-      if (empty($data['name']) || $data['value'] < 0) {
-        $_SESSION['errors'] = ['Invalid name or value'];
-      } else {
-        $crud->saveItem($data);
-      }
+      $crud->saveItem($data); // Errors are set in saveItem if validation fails
       header("Location: index.php");
       exit;
     case 'delete':

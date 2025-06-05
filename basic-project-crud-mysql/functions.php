@@ -47,6 +47,24 @@ class Crud
     return $data;
   }
 
+  public function validateItem(array $data): array
+  {
+    $errors = [];
+    $name = $data['name'];
+    $value = $data['value'];
+
+    if (empty($name)) {
+      $errors['name'] = 'Name is required';
+    }
+    if ($value < 0) {
+      $errors['value'] = 'Value must be a non-negative number';
+    }
+    if ($value > 999999.99) {
+      $errors['value'] = 'Value is too large. Maximum allowed is 999999.99';
+    }
+    return $errors;
+  }
+
   public function saveItem(array $data): bool
   {
     if (!$this->auth->isLoggedIn()) return false;
@@ -54,6 +72,13 @@ class Crud
     $name = $data['name'];
     $value = $data['value'];
     $id = $data['id'] ?? null;
+
+    $errors = $this->validateItem($data);
+    if (!empty($errors)) {
+      session_start();
+      $_SESSION['errors'] = $errors;
+      return false;
+    }
 
     if ($id) {
       $stmt = $this->conn->prepare("UPDATE items SET name = ?, value = ? WHERE id = ? AND user_id = ?");
