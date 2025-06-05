@@ -160,9 +160,7 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
       justify-content: center;
       align-items: center;
       width: 80px;
-      /* Fixed width for both buttons */
       height: 40px;
-      /* Fixed height for uniformity */
       padding: 0;
       text-align: center;
       text-decoration: none;
@@ -172,7 +170,6 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
       cursor: pointer;
       transition: background-color 0.3s;
       text-transform: uppercase;
-      /* Consistent text style */
     }
 
     .action-buttons a {
@@ -192,6 +189,28 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
 
     .action-buttons button:hover {
       background-color: #b32b35;
+    }
+
+    .logout-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .logout-button button {
+      width: auto;
+      padding: 10px 20px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .logout-button button:hover {
+      background-color: #5a6268;
     }
   </style>
 </head>
@@ -278,7 +297,13 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
         </tbody>
       </table>
     <?php endif; ?>
-    <a href="logout.php">Logout</a>
+
+    <!-- Logout Button -->
+    <div class="logout-button">
+      <form action="logout.php" method="POST">
+        <button type="submit">Logout</button>
+      </form>
+    </div>
   </div>
 </body>
 
