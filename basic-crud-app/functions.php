@@ -20,17 +20,30 @@ function getItemById(int $id): ?array
  *
  * @param string $sortBy Field to sort by
  * @param string $sortOrder 'asc' or 'desc'
- * @return array Sorted data array
+ * @param string $searchQuery Search query to filter items
+ * @return array Sorted and filtered data array
  */
-function getSortedData(string $sortBy, string $sortOrder): array
+function getSortedData(string $sortBy, string $sortOrder, string $searchQuery = ''): array
 {
   $data = $_SESSION['dataStore'] ?? [];
+
+  // Filter data based on search query
+  if ($searchQuery !== '') {
+    $searchQuery = strtolower(trim($searchQuery));
+    $data = array_filter($data, function ($item) use ($searchQuery) {
+      return stripos($item['name'], $searchQuery) !== false ||
+        stripos((string)$item['value'], $searchQuery) !== false;
+    });
+  }
+
+  // Sort the filtered data
   usort($data, function ($a, $b) use ($sortBy, $sortOrder) {
     $valueA = $a[$sortBy];
     $valueB = $b[$sortBy];
     $result = is_numeric($valueA) ? ($valueA <=> $valueB) : strcmp((string)$valueA, (string)$valueB);
     return $sortOrder === 'asc' ? $result : -$result;
   });
+
   return $data;
 }
 

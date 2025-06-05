@@ -25,7 +25,8 @@ if (isset($_GET['edit_id'])) {
 // Sorting
 $sortBy = $_GET['sort_by'] ?? 'id';
 $sortOrder = $_GET['sort_order'] ?? 'asc';
-$data = getSortedData($sortBy, $sortOrder);
+$searchQuery = $_GET['search'] ?? '';
+$data = getSortedData($sortBy, $sortOrder, $searchQuery);
 transformForDisplay($data);
 ?>
 <!DOCTYPE html>
@@ -34,7 +35,7 @@ transformForDisplay($data);
 <head>
   <meta charset="UTF-8">
   <title>CRUD Application</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 
 <body>
@@ -45,6 +46,16 @@ transformForDisplay($data);
     <?php if (isset($errors['general'])): ?>
       <p class="error"><?= htmlspecialchars($errors['general']) ?></p>
     <?php endif; ?>
+
+    <!-- Search Form -->
+    <form action="index.php" method="GET" class="search-form">
+      <label for="search">Search Items</label>
+      <input type="text" name="search" id="search" value="<?= htmlspecialchars($searchQuery) ?>" placeholder="Search by name or value">
+      <button type="submit" class="search-submit">Search</button>
+      <?php if ($searchQuery): ?>
+        <a href="index.php" class="clear-search">Clear Search</a>
+      <?php endif; ?>
+    </form>
 
     <!-- Create/Edit Form -->
     <form action="process.php" method="POST" class="form-group">
@@ -73,7 +84,7 @@ transformForDisplay($data);
     </form>
 
     <!-- Data Table -->
-    <h2>Items</h2>
+    <h2>Items <?= $searchQuery ? " (Search: " . htmlspecialchars($searchQuery) . ")" : "" ?></h2>
     <?php if (empty($data)): ?>
       <p class="no-items">No items found.</p>
     <?php else: ?>
