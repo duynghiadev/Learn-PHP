@@ -1,3 +1,7 @@
+Tham khảo: [php.techmaster.vn](https://php.techmaster.vn/)
+
+---
+
 # Lộ trình học PHP từ cơ bản đến nâng cao
 
 ## Phần I: PHP Basic (3 buổi)
