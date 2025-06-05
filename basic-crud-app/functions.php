@@ -59,11 +59,15 @@ function transformForDisplay(array &$items): DataContainer
 function validateItem(array $item, array &$errors): bool
 {
   $isValid = true;
-  if (empty($item['name'])) {
+  if (trim($item['name'] ?? '') === '') {
     $errors['name'] = 'Name is required';
     $isValid = false;
   }
-  if (!is_numeric($item['value']) || (float)$item['value'] < 0) {
+
+  if (!isset($item['value']) || trim((string)$item['value']) === '') {
+    $errors['value'] = 'Value is required';
+    $isValid = false;
+  } elseif (!is_numeric($item['value']) || (float)$item['value'] < 0) {
     $errors['value'] = 'Value must be a non-negative number';
     $isValid = false;
   }
