@@ -1,9 +1,6 @@
 <?php
+// logout.php
+require_once __DIR__ . '/includes/auth.php';
 
-declare(strict_types=1);
-
-require_once 'config.php';
-
-session_destroy();
-header("Location: login.php");
-exit;
+$auth = new Auth();
+$auth->logout();

@@ -1,25 +1,17 @@
 <?php
+// register.php
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/auth.php';
 
-declare(strict_types=1);
-
-require_once 'config.php';
-require_once 'auth.php';
-
-$errors = [];
-$success = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $email = trim($_POST['email'] ?? '');
-  $password = $_POST['password'] ?? '';
-  $passwordConfirm = $_POST['password_confirm'] ?? '';
-
-  $error = registerUser($email, $password, $passwordConfirm, $conn);
-  if ($error) {
-    $errors[] = $error;
-  } else {
-    $success = "Registration successful! Please log in.";
-  }
+session_start();
+$auth = new Auth();
+if ($auth->isLoggedIn()) {
+  header("Location: index.php");
+  exit;
 }
+
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Register</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background-color: #f4f7fa;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
     }
@@ -40,8 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin: 0 auto;
       background: #fff;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     .form-group {
@@ -51,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     label {
       display: block;
       margin-bottom: 5px;
-      font-weight: bold;
     }
 
     input {
@@ -64,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     button {
       width: 100%;
       padding: 10px;
-      background-color: #4a6de5;
+      background: #4a6de5;
       color: white;
       border: none;
       border-radius: 4px;
@@ -72,18 +69,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     button:hover {
-      background-color: #3a55b8;
+      background: #3a55b8;
     }
 
     .error {
-      color: #e63946;
+      color: red;
       font-size: 12px;
       margin-top: 5px;
     }
 
-    .success {
-      color: #2ecc71;
-      font-size: 14px;
+    .login-link {
+      text-align: center;
       margin-top: 10px;
     }
   </style>
@@ -91,16 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <div class="container">
-    <h2>Register</h2>
-    <?php if (!empty($errors)): ?>
-      <?php foreach ($errors as $error): ?>
-        <p class="error"><?= htmlspecialchars($error) ?></p>
-      <?php endforeach; ?>
-    <?php endif; ?>
-    <?php if ($success): ?>
-      <p class="success"><?= htmlspecialchars($success) ?></p>
-    <?php endif; ?>
-    <form method="POST" action="">
+    <h1>Register</h1>
+    <?php if (!empty($errors)): foreach ($errors as $error): ?><p class="error"><?= htmlspecialchars($error) ?></p><?php endforeach;
+                                                                                                                endif; ?>
+    <form action="process.php" method="POST" class="form-group">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required>
@@ -110,12 +100,127 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="password" id="password" required>
       </div>
       <div class="form-group">
-        <label for="password_confirm">Confirm Password</label>
-        <input type="password" name="password_confirm" id="password_confirm" required>
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" name="confirm_password" id="confirm_password" required>
       </div>
-      <button type="submit">Register</button>
+      <button type="submit" name="action" value="register">Register</button>
     </form>
-    <p><a href="login.php">Already have an account? Login</a></p>
+    <div class="login-link">
+      <a href="login.php">Already have an account? Login</a>
+    </div>
+  </div>
+</body>
+
+</html><?php
+        // register.php
+        require_once __DIR__ . '/config/db.php';
+        require_once __DIR__ . '/includes/auth.php';
+
+        session_start();
+        $auth = new Auth();
+        if ($auth->isLoggedIn()) {
+          header("Location: index.php");
+          exit;
+        }
+
+        $errors = $_SESSION['errors'] ?? [];
+        unset($_SESSION['errors']);
+        ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body {
+      background-color: #f4f7fa;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4a6de5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #3a55b8;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <?php if (!empty($errors)): foreach ($errors as $error): ?><p class="error"><?= htmlspecialchars($error) ?></p><?php endforeach;
+                                                                                                                endif; ?>
+    <form action="process.php" method="POST" class="form-group">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" name="confirm_password" id="confirm_password" required>
+      </div>
+      <button type="submit" name="action" value="register">Register</button>
+    </form>
+    <div class="login-link">
+      <a href="login.php">Already have an account? Login</a>
+    </div>
   </div>
 </body>
 

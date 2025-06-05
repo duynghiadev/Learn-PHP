@@ -1,109 +1,52 @@
 <?php
+// process.php
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/functions.php';
 
-declare(strict_types=1);
+session_start();
 
-require_once 'config.php';
-require_once 'functions.php';
+$auth = new Auth();
+$crud = new Crud();
 
-if (!isAuthenticated()) {
-  header("Location: login.php");
-  exit;
-}
-
-/**
- * Handles the CRUD operations based on the action.
- */
-class CrudHandler
-{
-  private array $errors = [];
-  private array $dataStore;
-
-  public function __construct()
-  {
-    $this->dataStore = &$_SESSION['dataStore'];
-  }
-
-  /**
-   * Processes the incoming request.
-   *
-   * @throws AdvancedFunctionException
-   */
-  public function process(): void
-  {
-    if (!isset($_POST['action'])) {
-      throw new AdvancedFunctionException('No action specified');
-    }
-
-    $action = $_POST['action'];
-
-    try {
-      match ($action) {
-        'create' => $this->handleCreate(),
-        'update' => $this->handleUpdate(),
-        'delete' => $this->handleDelete(),
-        default => throw new AdvancedFunctionException("Invalid action: $action")
-      };
-
-      if (!empty($this->errors)) {
-        $_SESSION['errors'] = $this->errors;
+if (isset($_POST['action'])) {
+  $action = $_POST['action'];
+  switch ($action) {
+    case 'register':
+      $errors = $auth->register($_POST['email'], $_POST['password'], $_POST['confirm_password']);
+      if (empty($errors)) {
+        header("Location: login.php");
+      } else {
+        $_SESSION['errors'] = $errors;
+        header("Location: register.php");
       }
-
-      header('Location: index.php');
       exit;
-    } catch (AdvancedFunctionException $e) {
-      $_SESSION['errors']['general'] = $e->getMessage();
-      header('Location: index.php');
+    case 'login':
+      $result = $auth->login($_POST['email'], $_POST['password']);
+      if ($result['success']) {
+        header("Location: index.php");
+      } else {
+        $_SESSION['errors'] = [$result['message']];
+        header("Location: login.php");
+      }
       exit;
-    }
-  }
-
-  /**
-   * Handles item creation.
-   *
-   * @throws AdvancedFunctionException
-   */
-  private function handleCreate(): void
-  {
-    $item = sanitizeItem($_POST);
-    if (validateItem($item, $this->errors)) {
-      $id = max(array_keys($this->dataStore + [0 => null])) + 1;
-      $item['id'] = $id;
-      $this->dataStore[$id] = $item;
-    }
-  }
-
-  /**
-   * Handles item updates.
-   *
-   * @throws AdvancedFunctionException
-   */
-  private function handleUpdate(): void
-  {
-    $id = (int)($_POST['id'] ?? 0);
-    if (!isset($this->dataStore[$id])) {
-      throw new AdvancedFunctionException("Item with ID $id not found");
-    }
-    $item = sanitizeItem($_POST);
-    if (validateItem($item, $this->errors)) {
-      $item['id'] = $id;
-      $this->dataStore[$id] = $item;
-    }
-  }
-
-  /**
-   * Handles item deletion.
-   *
-   * @throws AdvancedFunctionException
-   */
-  private function handleDelete(): void
-  {
-    $id = (int)($_POST['id'] ?? 0);
-    if (!isset($this->dataStore[$id])) {
-      throw new AdvancedFunctionException("Item with ID $id not found");
-    }
-    unset($this->dataStore[$id]);
+    case 'create':
+    case 'update':
+      $data = [
+        'id' => $_POST['id'] ?? null,
+        'name' => trim($_POST['name'] ?? ''),
+        'value' => floatval($_POST['value'] ?? 0)
+      ];
+      if (empty($data['name']) || $data['value'] < 0) {
+        $_SESSION['errors'] = ['Invalid name or value'];
+      } else {
+        $crud->saveItem($data);
+      }
+      header("Location: index.php");
+      exit;
+    case 'delete':
+      $crud->deleteItem((int)$_POST['id']);
+      header("Location: index.php");
+      exit;
   }
 }
-
-$handler = new CrudHandler();
-$handler->process();

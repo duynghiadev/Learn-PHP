@@ -1,37 +1,28 @@
 <?php
+// index.php
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/functions.php';
 
-declare(strict_types=1);
-
-require_once 'config.php';
-require_once 'functions.php';
-
-if (!isAuthenticated()) {
+session_start();
+$auth = new Auth();
+if (!$auth->isLoggedIn()) {
   header("Location: login.php");
   exit;
 }
 
-session_start();
-
-// Initialize data store if not set
-if (!isset($_SESSION['dataStore'])) {
-  $_SESSION['dataStore'] = [
-    1 => ['id' => 1, 'name' => 'SAMPLE ITEM', 'value' => 10.5]
-  ];
-}
-
+$crud = new Crud();
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
 $editItem = null;
 if (isset($_GET['edit_id'])) {
-  $editItem = getItemById((int)$_GET['edit_id']);
+  $editItem = $crud->getItemById((int)$_GET['edit_id']);
 }
 
-// Sorting
 $sortBy = $_GET['sort_by'] ?? 'id';
 $sortOrder = $_GET['sort_order'] ?? 'asc';
-$data = getSortedData($sortBy, $sortOrder);
-transformForDisplay($data);
+$data = $crud->getSortedData($sortBy, $sortOrder);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,13 +151,19 @@ transformForDisplay($data);
       display: flex;
       gap: 10px;
       align-items: center;
+      justify-content: center;
     }
 
     .action-buttons a,
     .action-buttons button {
-      display: inline-block;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
       width: 80px;
-      padding: 8px;
+      /* Fixed width for both buttons */
+      height: 40px;
+      /* Fixed height for uniformity */
+      padding: 0;
       text-align: center;
       text-decoration: none;
       border-radius: 6px;
@@ -174,6 +171,8 @@ transformForDisplay($data);
       font-weight: 500;
       cursor: pointer;
       transition: background-color 0.3s;
+      text-transform: uppercase;
+      /* Consistent text style */
     }
 
     .action-buttons a {
@@ -194,29 +193,11 @@ transformForDisplay($data);
     .action-buttons button:hover {
       background-color: #b32b35;
     }
-
-    .logout {
-      text-align: right;
-      margin-bottom: 20px;
-    }
-
-    .logout a {
-      color: #e63946;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .logout a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="logout">
-      <a href="logout.php">Logout</a>
-    </div>
     <h1>CRUD Application</h1>
 
     <!-- Error Display -->
@@ -297,6 +278,7 @@ transformForDisplay($data);
         </tbody>
       </table>
     <?php endif; ?>
+    <a href="logout.php">Logout</a>
   </div>
 </body>
 

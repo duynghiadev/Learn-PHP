@@ -1,26 +1,17 @@
 <?php
+// login.php
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/auth.php';
 
-declare(strict_types=1);
-
-require_once 'config.php';
-require_once 'auth.php';
-
-$errors = [];
-$success = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $email = trim($_POST['email'] ?? '');
-  $password = $_POST['password'] ?? '';
-
-  $user = authenticate($email, $password, $pdo);
-  if ($user) {
-    $_SESSION['user_id'] = $user['id'];
-    $success = "Login successful! Redirecting to CRUD page.";
-    header("Refresh:2; url=index.php");
-  } else {
-    $errors[] = "Invalid email or password";
-  }
+session_start();
+$auth = new Auth();
+if ($auth->isLoggedIn()) {
+  header("Location: index.php");
+  exit;
 }
+
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Login</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background-color: #f4f7fa;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
     }
@@ -41,8 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin: 0 auto;
       background: #fff;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     .form-group {
@@ -52,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     label {
       display: block;
       margin-bottom: 5px;
-      font-weight: bold;
     }
 
     input {
@@ -65,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     button {
       width: 100%;
       padding: 10px;
-      background-color: #4a6de5;
+      background: #4a6de5;
       color: white;
       border: none;
       border-radius: 4px;
@@ -73,18 +69,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     button:hover {
-      background-color: #3a55b8;
+      background: #3a55b8;
     }
 
     .error {
-      color: #e63946;
+      color: red;
       font-size: 12px;
       margin-top: 5px;
     }
 
-    .success {
-      color: #2ecc71;
-      font-size: 14px;
+    .register-link {
+      text-align: center;
       margin-top: 10px;
     }
   </style>
@@ -92,16 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <div class="container">
-    <h2>Login</h2>
-    <?php if (!empty($errors)): ?>
-      <?php foreach ($errors as $error): ?>
-        <p class="error"><?= htmlspecialchars($error) ?></p>
-      <?php endforeach; ?>
-    <?php endif; ?>
-    <?php if ($success): ?>
-      <p class="success"><?= htmlspecialchars($success) ?></p>
-    <?php endif; ?>
-    <form method="POST" action="">
+    <h1>Login</h1>
+    <?php if (!empty($errors)): foreach ($errors as $error): ?><p class="error"><?= htmlspecialchars($error) ?></p><?php endforeach;
+                                                                                                                endif; ?>
+    <form action="process.php" method="POST" class="form-group">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required>
@@ -110,9 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
       </div>
-      <button type="submit">Login</button>
+      <button type="submit" name="action" value="login">Login</button>
     </form>
-    <p><a href="register.php">Don't have an account? Register</a></p>
+    <div class="register-link">
+      <a href="register.php">Register here</a>
+    </div>
   </div>
 </body>
 
