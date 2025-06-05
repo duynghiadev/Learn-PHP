@@ -105,12 +105,14 @@ transformForDisplay($data);
               <td><?= htmlspecialchars($item['display_name']) ?></td>
               <td><?= htmlspecialchars((string)$item['value']) ?></td>
               <td>
-                <a href="?edit_id=<?= htmlspecialchars((string)$item['id']) ?>">Edit</a>
-                <form action="process.php" method="POST" style="display: inline;">
-                  <input type="hidden" name="id" value="<?= htmlspecialchars((string)$item['id']) ?>">
-                  <button type="submit" name="action" value="delete" class="delete"
-                    onclick="return confirm('Are you sure?')">Delete</button>
-                </form>
+                <div class="action-buttons">
+                  <a href="?edit_id=<?= htmlspecialchars((string)$item['id']) ?>">Edit</a>
+                  <form action="process.php" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="<?= htmlspecialchars((string)$item['id']) ?>">
+                    <button type="submit" name="action" value="delete"
+                      onclick="return confirm('Are you sure?')">Delete</button>
+                  </form>
+                </div>
               </td>
             </tr>
           <?php endforeach; ?>
