@@ -26,7 +26,10 @@ unset($_SESSION['errors']);
 <body>
   <div class="container">
     <h1>Login</h1>
-    <?php if (!empty($errors)): foreach ($errors as $error): ?><p class="error"><?= htmlspecialchars($error) ?></p>
+    <?php if (!empty($errors)): foreach ($errors as $error): ?>
+        <p class="error">
+          <?= htmlspecialchars($error) ?>
+        </p>
     <?php endforeach;
     endif; ?>
     <form action="process.php" method="POST" class="form-group">
