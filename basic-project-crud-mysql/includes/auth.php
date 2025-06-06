@@ -1,5 +1,6 @@
 <?php
 // includes/auth.php
+require_once __DIR__ . '/../helpers/session.php';
 require_once __DIR__ . '/../config/db.php';
 
 class Auth
@@ -23,13 +24,11 @@ class Auth
     }
     if ($checkUnique) {
       $stmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
-      $stmt->bind_param("s", $email);
-      $stmt->execute();
-      $result = $stmt->get_result();
-      if ($result->num_rows > 0) {
+      $stmt->execute([$email]);
+      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      if (count($result) > 0) {
         $errors[] = "Email already registered";
       }
-      $stmt->close();
     }
     return $errors;
   }
@@ -66,9 +65,11 @@ class Auth
     if (empty($errors)) {
       $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
       $stmt = $this->conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-      $stmt->bind_param("ss", $email, $hashedPassword);
-      $stmt->execute();
-      $stmt->close();
+      $success = $stmt->execute([$email, $hashedPassword]);
+
+      if (!$success) {
+        $errors[] = "Failed to register user";
+      }
     }
 
     return $errors;
@@ -80,17 +81,15 @@ class Auth
   public function login(string $email, string $password): ?array
   {
     $stmt = $this->conn->prepare("SELECT id, password FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows === 1) {
-      $user = $result->fetch_assoc();
-      if (password_verify($password, $user['password'])) {
+    if ($user && password_verify($password, $user['password'])) {
+      if (session_status() === PHP_SESSION_NONE) {
         session_start();
-        $_SESSION['user_id'] = $user['id'];
-        return ['success' => true];
       }
+      $_SESSION['user_id'] = $user['id'];
+      return ['success' => true];
     }
     return ['success' => false, 'message' => 'Invalid email or password'];
   }
@@ -100,7 +99,7 @@ class Auth
    */
   public function isLoggedIn(): bool
   {
-    session_start();
+    safe_session_start();
     return isset($_SESSION['user_id']);
   }
 
@@ -109,7 +108,7 @@ class Auth
    */
   public function logout()
   {
-    session_start();
+    safe_session_start();
     session_destroy();
     header("Location: login.php");
     exit;

@@ -1,20 +1,26 @@
 <?php
 // config/db.php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'crud_app');
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 class Database
 {
+  private $host = 'localhost';
+  private $dbname = 'crud_app';
+  private $username = 'root';
+  private $password = '';
   private $conn;
 
   public function __construct()
   {
-    $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-    if ($this->conn->connect_error) {
-      die("Connection failed: " . $this->conn->connect_error);
+    try {
+      $dsn = "mysql:host={$this->host};dbname={$this->dbname};charset=utf8mb4";
+      $this->conn = new PDO($dsn, $this->username, $this->password);
+      $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+      die("Connection failed: " . $e->getMessage());
     }
   }
 
@@ -24,4 +30,5 @@ class Database
   }
 }
 
+// Tự khởi tạo kết nối khi gọi file
 $db = new Database();

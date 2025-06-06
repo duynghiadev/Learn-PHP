@@ -1,5 +1,6 @@
 <?php
 // functions.php
+require_once __DIR__ . '/helpers/session.php';
 require_once __DIR__ . '/config/db.php';
 require_once __DIR__ . '/includes/auth.php';
 
@@ -19,12 +20,10 @@ class Crud
   {
     if (!$this->auth->isLoggedIn()) return null;
     $userId = $_SESSION['user_id'];
+
     $stmt = $this->conn->prepare("SELECT * FROM items WHERE id = ? AND user_id = ?");
-    $stmt->bind_param("ii", $id, $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $item = $result->fetch_assoc();
-    $stmt->close();
+    $stmt->execute([$id, $userId]);
+    $item = $stmt->fetch(PDO::FETCH_ASSOC);
     return $item ?: null;
   }
 
@@ -32,14 +31,18 @@ class Crud
   {
     if (!$this->auth->isLoggedIn()) return [];
     $userId = $_SESSION['user_id'];
-    $sortBy = in_array($sortBy, ['id', 'name', 'value']) ? $sortBy : 'id';
-    $sortOrder = in_array(strtolower($sortOrder), ['asc', 'desc']) ? $sortOrder : 'asc';
-    $stmt = $this->conn->prepare("SELECT * FROM items WHERE user_id = ? ORDER BY $sortBy $sortOrder");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $data = $result->fetch_all(MYSQLI_ASSOC);
-    $stmt->close();
+
+    $allowedSortBy = ['id', 'name', 'value'];
+    $allowedSortOrder = ['asc', 'desc'];
+
+    $sortBy = in_array($sortBy, $allowedSortBy) ? $sortBy : 'id';
+    $sortOrder = in_array(strtolower($sortOrder), $allowedSortOrder) ? strtoupper($sortOrder) : 'ASC';
+
+    $sql = "SELECT * FROM items WHERE user_id = ? ORDER BY $sortBy $sortOrder";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$userId]);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     foreach ($data as &$item) {
       $item['display_name'] = ucwords(strtolower($item['name']));
     }
@@ -75,20 +78,21 @@ class Crud
 
     $errors = $this->validateItem($data);
     if (!empty($errors)) {
-      session_start();
+      if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+      }
       $_SESSION['errors'] = $errors;
       return false;
     }
 
     if ($id) {
       $stmt = $this->conn->prepare("UPDATE items SET name = ?, value = ? WHERE id = ? AND user_id = ?");
-      $stmt->bind_param("sdii", $name, $value, $id, $userId);
+      $success = $stmt->execute([$name, $value, $id, $userId]);
     } else {
       $stmt = $this->conn->prepare("INSERT INTO items (name, value, user_id) VALUES (?, ?, ?)");
-      $stmt->bind_param("sdi", $name, $value, $userId);
+      $success = $stmt->execute([$name, $value, $userId]);
     }
-    $success = $stmt->execute();
-    $stmt->close();
+
     return $success;
   }
 
@@ -97,9 +101,8 @@ class Crud
     if (!$this->auth->isLoggedIn()) return false;
     $userId = $_SESSION['user_id'];
     $stmt = $this->conn->prepare("DELETE FROM items WHERE id = ? AND user_id = ?");
-    $stmt->bind_param("ii", $id, $userId);
+    $success = $stmt->execute([$id, $userId]);
     $success = $stmt->execute();
-    $stmt->close();
     return $success;
   }
 }
