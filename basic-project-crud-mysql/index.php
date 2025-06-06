@@ -12,21 +12,26 @@ if (!$auth->isLoggedIn()) {
   exit;
 }
 
-
 $crud = new Crud();
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
-
 
 $editItem = null;
 if (isset($_GET['edit_id'])) {
   $editItem = $crud->getItemById((int)$_GET['edit_id']);
 }
 
+$itemsPerPage = 5;
+$page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($page - 1) * $itemsPerPage;
+
+$totalItems = $crud->getTotalItemCount();
+$totalPages = ceil($totalItems / $itemsPerPage);
+
 $sortBy = $_GET['sort_by'] ?? 'id';
 $sortOrder = $_GET['sort_order'] ?? 'asc';
 $searchTerm = $_GET['search'] ?? '';
-$data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm);
+$data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm, $itemsPerPage, $offset);
 
 ?>
 <!DOCTYPE html>
@@ -127,6 +132,20 @@ $data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm);
         </tbody>
       </table>
     <?php endif; ?>
+
+    <!-- pagination -->
+    <?php if ($totalPages > 1): ?>
+      <div class="pagination">
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+          <a
+            href="?page=<?= $i ?>&sort_by=<?= urlencode($sortBy) ?>&sort_order=<?= urlencode($sortOrder) ?>"
+            class="<?= $i === $page ? 'active' : '' ?>">
+            <?= $i ?>
+          </a>
+        <?php endfor; ?>
+      </div>
+    <?php endif; ?>
+
 
     <!-- Logout Button -->
     <div class="logout-button">

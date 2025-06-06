@@ -27,7 +27,7 @@ class Crud
     return $item ?: null;
   }
 
-  public function getSortedData(string $sortBy = 'id', string $sortOrder = 'asc', string $searchTerm = ''): array
+  public function getSortedData(string $sortBy = 'id', string $sortOrder = 'asc', string $searchTerm = '', int $limit = 10, int $offset = 0): array
   {
     if (!$this->auth->isLoggedIn()) return [];
 
@@ -39,17 +39,32 @@ class Crud
     $sortOrder = in_array(strtolower($sortOrder), $allowedSortOrder) ? $sortOrder : 'asc';
 
     if ($searchTerm) {
-      $sql = "SELECT * FROM items WHERE user_id = ? AND name LIKE ? ORDER BY $sortBy $sortOrder";
+      $sql = "SELECT * FROM items WHERE user_id = :userId AND name LIKE :searchTerm ORDER BY $sortBy $sortOrder LIMIT :limit OFFSET :offset";
       $stmt = $this->conn->prepare($sql);
-      $likeSearch = '%' . $searchTerm . '%';
-      $stmt->execute([$userId, $likeSearch]);
+      $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+      $stmt->bindValue(':searchTerm', "%$searchTerm%", PDO::PARAM_STR);
+      $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+      $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+      $stmt->execute();
     } else {
-      $sql = "SELECT * FROM items WHERE user_id = ? ORDER BY $sortBy $sortOrder";
+      $sql = "SELECT * FROM items WHERE user_id = :userId ORDER BY $sortBy $sortOrder LIMIT :limit OFFSET :offset";
       $stmt = $this->conn->prepare($sql);
-      $stmt->execute([$userId]);
+      $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+      $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+      $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+      $stmt->execute();
     }
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getTotalItemCount(): int
+  {
+    if (!$this->auth->isLoggedIn()) return 0;
+    $userId = $_SESSION['user_id'];
+    $stmt = $this->conn->prepare("SELECT COUNT(*) FROM items WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    return (int)$stmt->fetchColumn();
   }
 
   public function validateItem(array $data): array
