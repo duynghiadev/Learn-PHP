@@ -83,6 +83,10 @@ button {
   transition: background-color 0.3s;
 }
 
+.search-form {
+  margin-top: 12px;
+}
+
 button:hover {
   background-color: #3a55b8;
 }

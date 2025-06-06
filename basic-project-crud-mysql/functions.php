@@ -27,27 +27,29 @@ class Crud
     return $item ?: null;
   }
 
-  public function getSortedData(string $sortBy, string $sortOrder): array
+  public function getSortedData(string $sortBy = 'id', string $sortOrder = 'asc', string $searchTerm = ''): array
   {
     if (!$this->auth->isLoggedIn()) return [];
+
     $userId = $_SESSION['user_id'];
 
     $allowedSortBy = ['id', 'name', 'value'];
     $allowedSortOrder = ['asc', 'desc'];
-
     $sortBy = in_array($sortBy, $allowedSortBy) ? $sortBy : 'id';
-    $sortOrder = in_array(strtolower($sortOrder), $allowedSortOrder) ? strtoupper($sortOrder) : 'ASC';
+    $sortOrder = in_array(strtolower($sortOrder), $allowedSortOrder) ? $sortOrder : 'asc';
 
-    $sql = "SELECT * FROM items WHERE user_id = ? ORDER BY $sortBy $sortOrder";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([$userId]);
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($data as &$item) {
-      $item['display_name'] = ucwords(strtolower($item['name']));
+    if ($searchTerm) {
+      $sql = "SELECT * FROM items WHERE user_id = ? AND name LIKE ? ORDER BY $sortBy $sortOrder";
+      $stmt = $this->conn->prepare($sql);
+      $likeSearch = '%' . $searchTerm . '%';
+      $stmt->execute([$userId, $likeSearch]);
+    } else {
+      $sql = "SELECT * FROM items WHERE user_id = ? ORDER BY $sortBy $sortOrder";
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute([$userId]);
     }
-    unset($item);
-    return $data;
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function validateItem(array $data): array

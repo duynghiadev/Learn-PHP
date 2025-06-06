@@ -12,9 +12,11 @@ if (!$auth->isLoggedIn()) {
   exit;
 }
 
+
 $crud = new Crud();
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
+
 
 $editItem = null;
 if (isset($_GET['edit_id'])) {
@@ -23,7 +25,9 @@ if (isset($_GET['edit_id'])) {
 
 $sortBy = $_GET['sort_by'] ?? 'id';
 $sortOrder = $_GET['sort_order'] ?? 'asc';
-$data = $crud->getSortedData($sortBy, $sortOrder);
+$searchTerm = $_GET['search'] ?? '';
+$data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +35,7 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
 <head>
   <meta charset="UTF-8">
   <title>CRUD Application</title>
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -39,6 +43,7 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
     <h1>CRUD Application</h1>
 
     <!-- Create/Edit Form -->
+    <h2>Add New Items</h2>
     <form action="process.php" method="POST" class="form-group" id="crud-form">
       <?php if ($editItem): ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars((string)$editItem['id']) ?>">
@@ -67,7 +72,16 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
     </form>
 
     <!-- Data Table -->
-    <h2>Items</h2>
+    <h2>Search Items</h2>
+    <form method="GET" action="" class="search-form">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search by name..."
+        value="<?= htmlspecialchars($searchTerm) ?>">
+      <button type="submit" class="search-form">Search</button>
+    </form>
+
     <?php if (empty($data)): ?>
       <p class="no-items">No items found.</p>
     <?php else: ?>
@@ -75,17 +89,17 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
         <thead>
           <tr>
             <th>
-              <a href="?sort_by=id&sort_order=<?= $sortBy === 'id' && $sortOrder === 'asc' ? 'desc' : 'asc' ?>">
+              <a href="?sort_by=id&sort_order=<?= $sortBy === 'id' && $sortOrder === 'asc' ? 'desc' : 'asc' ?>&search=<?= urlencode($searchTerm) ?>">
                 ID <?= $sortBy === 'id' ? ($sortOrder === 'asc' ? '↑' : '↓') : '' ?>
               </a>
             </th>
             <th>
-              <a href="?sort_by=name&sort_order=<?= $sortBy === 'name' && $sortOrder === 'asc' ? 'desc' : 'asc' ?>">
+              <a href="?sort_by=name&sort_order=<?= $sortBy === 'name' && $sortOrder === 'asc' ? 'desc' : 'asc' ?>&search=<?= urlencode($searchTerm) ?>">
                 Name <?= $sortBy === 'name' ? ($sortOrder === 'asc' ? '↑' : '↓') : '' ?>
               </a>
             </th>
             <th>
-              <a href="?sort_by=value&sort_order=<?= $sortBy === 'value' && $sortOrder === 'asc' ? 'desc' : 'asc' ?>">
+              <a href="?sort_by=value&sort_order=<?= $sortBy === 'value' && $sortOrder === 'asc' ? 'desc' : 'asc' ?>&search=<?= urlencode($searchTerm) ?>">
                 Value <?= $sortBy === 'value' ? ($sortOrder === 'asc' ? '↑' : '↓') : '' ?>
               </a>
             </th>
@@ -96,7 +110,7 @@ $data = $crud->getSortedData($sortBy, $sortOrder);
           <?php foreach ($data as $item): ?>
             <tr>
               <td><?= htmlspecialchars((string)$item['id']) ?></td>
-              <td><?= htmlspecialchars($item['display_name']) ?></td>
+              <td><?= htmlspecialchars($item['name']) ?></td>
               <td><?= htmlspecialchars((string)$item['value']) ?></td>
               <td>
                 <div class="action-buttons">
