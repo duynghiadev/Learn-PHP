@@ -10,6 +10,13 @@ safe_session_start();
 $auth = new Auth();
 $crud = new Crud();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'logout') {
+  session_start();
+  session_destroy();
+  header('Location: login.php');
+  exit;
+}
+
 if (isset($_POST['action'])) {
   $action = $_POST['action'];
   switch ($action) {

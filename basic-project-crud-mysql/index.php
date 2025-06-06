@@ -47,6 +47,15 @@ $data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm, $itemsPerPage, $o
   <div class="container">
     <h1>CRUD Application</h1>
 
+    <?php if (isset($_SESSION['user_id'])): ?>
+      <div class="header-bar">
+        <span class="user-name">👤 <?= htmlspecialchars($_SESSION['display_name']) ?></span>
+        <form action="process.php" method="POST">
+          <button type="submit" name="action" value="logout" class="logout-btn">Logout</button>
+        </form>
+      </div>
+    <?php endif; ?>
+
     <!-- Create/Edit Form -->
     <h2>Add New Items</h2>
     <form action="process.php" method="POST" class="form-group" id="crud-form">
@@ -145,14 +154,6 @@ $data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm, $itemsPerPage, $o
         <?php endfor; ?>
       </div>
     <?php endif; ?>
-
-
-    <!-- Logout Button -->
-    <div class="logout-button">
-      <form action="logout.php" method="POST">
-        <button type="submit">Logout</button>
-      </form>
-    </div>
   </div>
 
   <script src="./js/script.js"></script>

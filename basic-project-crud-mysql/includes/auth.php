@@ -89,6 +89,8 @@ class Auth
         session_start();
       }
       $_SESSION['user_id'] = $user['id'];
+      $_SESSION['email'] = $email;
+      $_SESSION['display_name'] = explode('@', $email)[0];
       return ['success' => true];
     }
     return ['success' => false, 'message' => 'Invalid email or password'];
