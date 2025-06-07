@@ -30,5 +30,5 @@ class Database
   }
 }
 
-// Tự khởi tạo kết nối khi gọi file
+// connection to database
 $db = new Database();
