@@ -73,7 +73,7 @@ $data = $crud->getSortedData($sortBy, $sortOrder, $searchTerm, $itemsPerPage, $o
       </div>
       <div class="form-group">
         <label for="value">Value</label>
-        <input type="number" name="value" id="value" step="0.01"
+        <input type="number" name="value" id="value" step="any"
           value="<?= htmlspecialchars((string)($editItem['value'] ?? '')) ?>">
         <?php if (isset($errors['value'])): ?>
           <p class="error server-error"><?= htmlspecialchars($errors['value']) ?></p>
