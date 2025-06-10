@@ -90,7 +90,7 @@ if (isset($_POST['themsp'])) {
 
 
     if (mysqli_query($connection, $sql)) {
-        echo "<div class='list'>Thêm sản phẩm thành công. <a href='/qlySanPham'>Quay lại</a></div>";
+        echo "<div class='list'>Thêm sản phẩm thành công. <a href='../qlySanPham'>Quay lại</a></div>";
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($connect);
@@ -103,15 +103,15 @@ if (isset($_POST['themsp'])) {
 <div id="vien">
     <div class="center">
         <div id="ban">
-            <a id="ba" href="/index.php">Trang chủ</a> >
-            <a id="ba" href="/">Admin Panel</a> >
-            <a id="ba" href="/qlySanPham/index.php?mod=panel">Quản lý sản phẩm</a> >
+            <a id="ba" href="./index.php">Trang chủ</a> >
+            <a id="ba" href="./">Admin Panel</a> >
+            <a id="ba" href="../qlySanPham/index.php?mod=panel">Quản lý sản phẩm</a> >
             <font color="#008744">Thêm sản phẩm</font>
         </div>
     </div>
 </div>
 <div class="list">
-    <form action='/qlySanPham/index.php?mod=add' method='POST' enctype="multipart/form-data">
+    <form action='../qlySanPham/index.php?mod=add' method='POST' enctype="multipart/form-data">
         <table>
             <tr>
                 <td>
@@ -166,8 +166,9 @@ if (isset($_POST['themsp'])) {
         <p><textarea name="Mota" id="Mota" rows="10" cols="50"></textarea></p>
         <p>Hình sản phẩm:</p>
         <p><input id="hinh" type='file' name='Hinhsp' /></p>
-        <p><input type='submit' name="themsp" value='Thêm sản phẩm' onclick=" return Check()" />
-            <a href='/qlySanPham/index.php?mod=panel'>Quay lại</a>
+        <p>
+            <input type='submit' name="themsp" value='Thêm sản phẩm' onclick=" return Check()" />
+            <a href='../qlySanPham/index.php?mod=panel'>Quay lại</a>
         </p>
     </form>
 </div>

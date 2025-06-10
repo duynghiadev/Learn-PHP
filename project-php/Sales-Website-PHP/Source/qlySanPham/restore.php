@@ -5,4 +5,3 @@ if (isset($_GET["id"])) {
     $result = mysqli_query($connection, $sql);
 }
 ChangeURL("../qlySanPham");
-?>
