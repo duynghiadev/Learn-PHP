@@ -7,7 +7,7 @@ const _ACTION = 'dashboard';
 const _CODE = true;
 
 // Thiết lập host
-define('_WEB_HOST', 'http://' . $_SERVER['HTTP_HOST'] . '/hienu_php/manager_users');
+define('_WEB_HOST', 'http://' . $_SERVER['HTTP_HOST'] . '/Learn-PHP/manager_course');
 define('_WEB_HOST_TEMPLATES', _WEB_HOST . '/templates');
 
 
@@ -18,6 +18,6 @@ define('_WEB_PATH_TEMPLATES', _WEB_PATH . '/templates');
 
 // Thông tin kết nối
 const _HOST = 'localhost';
-const _DB = 'hienu_123';
+const _DB = 'crm-system';
 const _USER = 'root';
 const _PASS = '';

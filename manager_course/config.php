@@ -1,5 +1,5 @@
 <?php
-// const _HIENU = true;
+const _HIENU = true;
 
 const _MODULES = 'dashboard';
 const _ACTION = 'index';
@@ -15,7 +15,7 @@ const _DRIVER = 'mysql';
 const _DEBUG = true;
 
 // thiết lập host
-define('_HOST_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/manager_course');
+define('_HOST_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/Learn-PHP/manager_course');
 define('_HOST_URL_TEMPLATES', _HOST_URL . '/templates');
 
 // thiết lập path
