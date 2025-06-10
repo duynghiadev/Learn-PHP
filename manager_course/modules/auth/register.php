@@ -22,18 +22,18 @@ if (isPost()) {
     }
   }
 
-  // Validate email 
+  // Validate email
   if (empty(trim($filter['email']))) {
     $errors['email']['required'] = 'Email bắt buộc phải nhập';
   } else {
-    // Đúng định dạng email, email này đã tồn tại trong CSDL chưa
+    // Đúng định dạng email, email này đã tồn tại trong database chưa
     if (!validateEmail(trim($filter['email']))) {
       $errors['email']['isEmail'] = 'Email không đúng định dạng';
     } else {
       $email = $filter['email'];
 
-      $checkEamil = getRows("SELECT * FROM users WHERE email = '$email' ");
-      if ($checkEamil > 0) {
+      $checkEmail = getRows("SELECT * FROM users WHERE email = '$email' ");
+      if ($checkEmail > 0) {
         $errors['email']['check'] = 'Email đã tồn tại';
       }
     }
@@ -77,8 +77,6 @@ if (isPost()) {
     setSessionFlash('errors', $errors);
   }
 
-
-
   $errorsArr  = getSessionFlash('errors');
 }
 
@@ -102,8 +100,8 @@ if (isPost()) {
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="fullname" type="text" class="form-control form-control-lg"
               placeholder="Họ tên" />
-            <?php 
-               echo formError($errorsArr, 'fullname');
+            <?php
+            echo formError($errorsArr, 'fullname');
             ?>
           </div>
 
@@ -111,36 +109,36 @@ if (isPost()) {
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="email" type="text" class="form-control form-control-lg"
               placeholder="Địa chỉ email" />
-              <?php 
-                echo formError($errorsArr, 'email');
-              ?>
+            <?php
+            echo formError($errorsArr, 'email');
+            ?>
           </div>
 
           <!-- Nhập số điện thoại -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="phone" type="text" class="form-control form-control-lg"
               placeholder="Nhập số điện thoại" />
-              <?php 
-                echo formError($errorsArr, 'phone');
-              ?>
+            <?php
+            echo formError($errorsArr, 'phone');
+            ?>
           </div>
 
           <!-- Password input -->
           <div data-mdb-input-init class="form-outline mb-3">
             <input name="password" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập mật khẩu" />
-              <?php 
-                echo formError($errorsArr, 'password');
-              ?>
+            <?php
+            echo formError($errorsArr, 'password');
+            ?>
           </div>
 
           <!-- Nhập lại mật khẩu -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="confirm_pass" type="password" class="form-control form-control-lg"
               placeholder="Nhập lại mật khẩu" />
-              <?php 
-                echo formError($errorsArr, 'confirm_pass');
-              ?>
+            <?php
+            echo formError($errorsArr, 'confirm_pass');
+            ?>
           </div>
 
           <div class="text-center text-lg-start mt-4 pt-2">

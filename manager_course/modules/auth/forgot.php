@@ -1,6 +1,6 @@
-<?php
-if (!defined('_HIENU')) {
-  die('Truy cập không hợp lệ');
+<?php 
+if(!defined('_HIENU')){
+    die('Truy cập không hợp lệ');
 }
 $data = [
   'title' => 'Quên mật khẩu'
@@ -27,12 +27,12 @@ layout('header-auth', $data);
               placeholder="Địa chỉ email" />
           </div>
 
-
+    
 
           <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Gửi</button>
-
+           
           </div>
 
         </form>
@@ -42,5 +42,5 @@ layout('header-auth', $data);
 
 </section>
 
-<?php
+<?php 
 layout('footer');

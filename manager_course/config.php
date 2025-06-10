@@ -15,7 +15,7 @@ const _DRIVER = 'mysql';
 const _DEBUG = true;
 
 // thiết lập hsost
-define('_HOST_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/manager_course');
+define('_HOST_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/Learn-PHP/manager_course');
 define('_HOST_URL_TEMPLATES', _HOST_URL . '/templates');
 
 // thiết lập path

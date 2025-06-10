@@ -1,4 +1,4 @@
 <?php
-if (!defined('_HIENU')) {
+if(!defined('_HIENU')){
     die('Truy cập không hợp lệ');
 }
