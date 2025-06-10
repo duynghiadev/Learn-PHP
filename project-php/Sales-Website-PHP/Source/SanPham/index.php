@@ -1,26 +1,24 @@
 <?php
 require "../header.php";
 $mod = "mucluc";
-if(isset($_GET["mod"]))
+if (isset($_GET["mod"]))
     $mod = $_GET["mod"];
-    
+
 
 switch ($mod) {
-    case 'mucluc': 
+    case 'mucluc':
         include "../SanPham/mucluc.php";
         break;
-    case 'sanpham': 
+    case 'sanpham':
         include "../SanPham/sanpham.php";
         break;
-    case 'dssp': 
+    case 'dssp':
         include "../SanPham/dssp.php";
         break;
-    case 'timkiem': 
+    case 'timkiem':
         include "../SanPham/timkiem.php";
-        break;        
+        break;
     default:
         include "../error.php";
         break;
 }
-
-?>
