@@ -1,39 +1,39 @@
 <?php
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
-require_once('config.php');
-require_once('./includes/connect.php');
+ob_start();
 
-// Thư viện phpmailer
-require_once('./includes/phpmailer/Exception.php');
-require_once('./includes/phpmailer/PHPMailer.php');
-require_once('./includes/phpmailer/SMTP.php');
+// Enable error reporting for debugging
+if (defined('_DEBUG') && _DEBUG) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 
-require_once('./includes/functions.php');
-require_once('./includes/database.php');
-require_once('./includes/session.php');
+require_once 'config.php';
 
-
-
-$module = _MODULE;
+$module = _MODULES;
 $action = _ACTION;
 
 if (!empty($_GET['module'])) {
-    if (is_string($_GET['module'])) {
-        $module = trim($_GET['module']);
-    }
+    $module = $_GET['module'];
 }
 
 if (!empty($_GET['action'])) {
-    if (is_string($_GET['action'])) {
-        $action = trim($_GET['action']);
-    }
+    $action = $_GET['action'];
 }
 
-
-$path = 'modules/' . $module . '/' . $action . '.php';
-
-if (file_exists($path)) {
-    require_once($path);
+// Adjust path to point to templates/layout for auth-related files
+if ($module === 'auth') {
+    $path = 'templates/layout/' . $action . '.php';
 } else {
-    require_once 'modules/error/404.php';
+    $path = 'modules/' . $module . '/' . $action . '.php';
 }
+
+if (!empty($path) && file_exists($path)) {
+    require_once $path;
+} else {
+    require_once 'modules/errors/404.php';
+}
+
+ob_end_flush();

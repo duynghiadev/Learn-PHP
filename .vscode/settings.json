@@ -6,6 +6,7 @@
     "ERRMODE",
     "HTTPHEADER",
     "Minh",
+    "phpmailer",
     "POSTFIELDS",
     "RETURNTRANSFER",
     "Toastify"

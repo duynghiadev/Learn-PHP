@@ -1,23 +1,20 @@
-<!-- Các hằng của project -->
 <?php
-
-const _MODULE = 'home';
-const _ACTION = 'dashboard';
-
 const _CODE = true;
+const _MODULES = 'dashboard';
+const _ACTION = 'index';
 
-// Thiết lập host
-define('_WEB_HOST', 'http://' . $_SERVER['HTTP_HOST'] . '/Learn-PHP/manager_course');
-define('_WEB_HOST_TEMPLATES', _WEB_HOST . '/templates');
-
-
-// Thiết lập path
-define('_WEB_PATH', __DIR__);
-define('_WEB_PATH_TEMPLATES', _WEB_PATH . '/templates');
-
-
-// Thông tin kết nối
+// Database configuration
 const _HOST = 'localhost';
 const _DB = 'crm-system';
 const _USER = 'root';
 const _PASS = '';
+const _DRIVER = 'mysql';
+
+// Debug mode
+const _DEBUG = true;
+
+// Setup host and paths
+define('_HOST_URL', 'http://' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost') . '/Learn-PHP/hienu_php/manager_users');
+define('_HOST_URL_TEMPLATES', _HOST_URL . '/templates');
+define('_PATH_URL', __DIR__);
+define('_PATH_URL_TEMPLATES', _PATH_URL . DIRECTORY_SEPARATOR . 'templates');
