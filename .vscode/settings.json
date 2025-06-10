@@ -11,6 +11,7 @@
     "POSTFIELDS",
     "RETURNTRANSFER",
     "thumnail",
-    "Toastify"
+    "Toastify",
+    "valuetb"
   ]
 }

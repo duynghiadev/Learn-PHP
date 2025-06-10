@@ -26,11 +26,60 @@ $courses = getRaw('SELECT * FROM course');
     <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/css/style.css?ver=<?php echo rand(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .action-btn {
+            margin: 0 5px;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+            margin-bottom: 10px;
+        }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4"><?php echo $data['pageTitle']; ?></h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center mb-0"><?php echo $data['pageTitle']; ?></h2>
+            <a href="?module=course&action=create" class="btn btn-add text-white">
+                <i class="fas fa-plus"></i> Thêm khóa học
+            </a>
+        </div>
         <?php if (!empty($courses)): ?>
             <table class="table table-bordered table-hover">
                 <thead class="table-dark">
@@ -44,6 +93,7 @@ $courses = getRaw('SELECT * FROM course');
                         <th>Thumbnail</th>
                         <th>Ngày tạo</th>
                         <th>Ngày cập nhật</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,6 +110,15 @@ $courses = getRaw('SELECT * FROM course');
                             </td>
                             <td><?php echo $course['created_at']; ?></td>
                             <td><?php echo $course['updated_at']; ?></td>
+                            <td>
+                                <a href="?module=course&action=edit&id=<?php echo $course['id']; ?>" class="btn btn-edit action-btn">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </a>
+                                <a href="?module=course&action=delete&id=<?php echo $course['id']; ?>" class="btn btn-delete action-btn text-white"
+                                    onclick="return confirm('Bạn có chắc chắn muốn xóa khóa học <?php echo $course['name']; ?> không?')">
+                                    <i class="fas fa-trash"></i> Xóa
+                                </a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -69,7 +128,7 @@ $courses = getRaw('SELECT * FROM course');
                 Không có khóa học nào trong cơ sở dữ liệu.
             </div>
         <?php endif; ?>
-        <a href="?module=dashboard&action=index" class="btn btn-primary mt-3">Quay lại trang chủ</a>
+        <a href="?module=dashboard" class="btn btn-primary mt-3">Quay lại trang chủ</a>
     </div>
 </body>
 
