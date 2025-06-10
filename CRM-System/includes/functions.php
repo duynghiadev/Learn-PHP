@@ -9,6 +9,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+define('_WEB_PATH_TEMPLATES', __DIR__ . '/../templates'); // Đường dẫn tương ứng với cấu trúc thư mục của bạn
+
 function layouts($layoutName = 'header', $data = [])
 {
     if (file_exists(_WEB_PATH_TEMPLATES . '/layout/' . $layoutName . '.php')) {

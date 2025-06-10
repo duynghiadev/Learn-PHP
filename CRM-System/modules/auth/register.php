@@ -3,6 +3,8 @@ if (!defined('_CODE')) {
     die('Access denied...');
 }
 
+define('_WEB_HOST', 'http://localhost/Learn-PHP/CRM-System');
+
 if (isPost()) {
     $filterAll = filter();
 

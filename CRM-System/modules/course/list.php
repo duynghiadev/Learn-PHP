@@ -2,6 +2,7 @@
 require_once 'config.php';
 require_once './includes/connect.php';
 require_once './includes/database.php';
+require_once './includes/session.php'; // Giả sử file trên được lưu là session.php
 
 if (!defined('_CODE')) {
     die('Access denied...');
@@ -47,7 +48,6 @@ $courses = getRaw('SELECT * FROM course');
             background-color: #ffc107;
             border-color: #ffc107;
             color: #212529;
-            margin-bottom: 10px;
         }
 
         .btn-edit:hover {
@@ -80,6 +80,13 @@ $courses = getRaw('SELECT * FROM course');
                 <i class="fas fa-plus"></i> Thêm khóa học
             </a>
         </div>
+        <?php
+        // Hiển thị thông báo từ flash data nếu có
+        $message = getFlashData('message');
+        if ($message) {
+            echo '<div class="alert alert-' . $message['type'] . ' text-center">' . $message['text'] . '</div>';
+        }
+        ?>
         <?php if (!empty($courses)): ?>
             <table class="table table-bordered table-hover">
                 <thead class="table-dark">

@@ -1,7 +1,11 @@
-<!-- Hàm liên quan session hay cookies -->
 <?php
 if (!defined('_CODE')) {
     die('Access denied...');
+}
+
+// Bắt đầu session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
 // Hàm gán session
@@ -16,13 +20,12 @@ function getSession($key = '')
     if (empty($key)) {
         return $_SESSION;
     } else {
-        if (isset($_SESSION[$key])) { {
-                return $_SESSION[$key];
-            }
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
         }
+        return null; // Trả về null nếu key không tồn tại
     }
 }
-
 
 // Hàm xoá session
 function removeSession($key = '')
@@ -35,6 +38,7 @@ function removeSession($key = '')
             unset($_SESSION[$key]);
             return true;
         }
+        return false; // Trả về false nếu key không tồn tại
     }
 }
 

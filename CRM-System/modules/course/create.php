@@ -2,13 +2,11 @@
 require_once 'config.php';
 require_once './includes/connect.php';
 require_once './includes/database.php';
+require_once './includes/session.php'; // Giả sử file trên được lưu là session.php
 
 if (!defined('_CODE')) {
   die('Access denied...');
 }
-
-// Bắt đầu session để lưu thông báo
-session_start();
 
 // Set page title
 $data = [
@@ -32,19 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ];
 
   if (insert('course', $courseData)) {
-    // Lưu thông báo thành công vào session
-    $_SESSION['message'] = [
+    // Lưu thông báo thành công vào flash data
+    setFlashData('message', [
       'type' => 'success',
       'text' => 'Thêm khóa học thành công!'
-    ];
+    ]);
     header('Location: ?module=course&action=list');
     exit;
   } else {
-    // Lưu thông báo lỗi vào session
-    $_SESSION['message'] = [
+    // Lưu thông báo lỗi vào flash data
+    setFlashData('message', [
       'type' => 'danger',
       'text' => 'Thêm khóa học thất bại!'
-    ];
+    ]);
   }
 }
 ?>
@@ -66,10 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2 class="text-center mb-4"><?php echo $data['pageTitle']; ?></h2>
     <?php
     // Hiển thị thông báo nếu có, trước khi chuyển hướng
-    if (isset($_SESSION['message'])) {
-      echo '<div class="alert alert-' . $_SESSION['message']['type'] . ' text-center">' . $_SESSION['message']['text'] . '</div>';
-      // Xóa thông báo sau khi hiển thị
-      unset($_SESSION['message']);
+    $message = getFlashData('message');
+    if ($message) {
+      echo '<div class="alert alert-' . $message['type'] . ' text-center">' . $message['text'] . '</div>';
     }
     ?>
     <form action="?module=course&action=create" method="POST" class="w-75 mx-auto">
