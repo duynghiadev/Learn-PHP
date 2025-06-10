@@ -8,20 +8,17 @@ require_once 'config.php';
 
 require_once './includes/connect.php';
 require_once './includes/database.php';
+require_once './includes/session.php';
 
-$data = [
-    'fullname' => 'Hiếu Nguyễn 1',
-    'email' => 'hieu@gmail.com',
-    'phone' => '098765433'
-];
+// Email
+require_once './includes/mailer/Exception.php';
+require_once './includes/mailer/PHPMailer.php';
+require_once './includes/mailer/SMTP.php';
 
-$condition = 'id = 1';
 
-insert('users', $data);
+require_once './includes/functions.php';
 
-$rel = lastID();
 
-echo $rel;
 
 $module = _MODULES;
 $action = _ACTION;
