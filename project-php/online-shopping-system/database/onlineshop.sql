@@ -334,8 +334,8 @@ INSERT INTO `products` (`product_id`, `product_cat`, `product_brand`, `product_t
 (77, 1, 4, 'MSV laptop 16gb ram NVIDEA Graphics', 5499, 'MSV laptop 16gb ram', 'product06.png', 'MSV laptop 16gb ram NVIDEA Graphics electronics'),
 (78, 1, 5, 'dell laptop 8gb ram intel integerated Graphics', 4579, 'dell laptop 8gb ram intel integerated Graphics', 'product08.png', 'dell laptop 8gb ram intel integerated Graphics electronics'),
 (79, 7, 2, 'camera with 3D pixels', 2569, 'camera with 3D pixels', 'product09.png', 'camera with 3D pixels camera electronics gadgets'),
-(80, 1, 1, 'ytrfdkjsd', 12343, 'sdfhgh', '1542455446_thythtf .jpeg', 'dfgh'),
-(81, 4, 6, 'Kids blue dress', 300, 'blue dress', '1543993724_pg4.jpg', 'kids blue dress');
+(80, 1, 1, 'ytrfdkjsd', 12343, 'sdfhgh', 'pt8.JPG', 'dfgh'),
+(81, 4, 6, 'Kids blue dress', 300, 'blue dress', 'pt8.JPG', 'kids blue dress');
 
 -- --------------------------------------------------------
 
@@ -373,7 +373,7 @@ INSERT INTO `user_info` (`user_id`, `first_name`, `last_name`, `email`, `passwor
 -- Triggers `user_info`
 --
 DELIMITER $$
-CREATE TRIGGER `after_user_info_insert` AFTER INSERT ON `user_info` FOR EACH ROW BEGIN 
+CREATE TRIGGER `after_user_info_insert` AFTER INSERT ON `user_info` FOR EACH ROW BEGIN
 INSERT INTO user_info_backup VALUES(new.user_id,new.first_name,new.last_name,new.email,new.password,new.mobile,new.address1,new.address2);
 END
 $$
