@@ -1,11 +1,12 @@
 <?php
-if(!defined('_HIENU')){
+if (!defined('_HIENU')) {
     die('Truy cập không hợp lệ');
 }
 
 // Set session
-function setSession($key, $value) {
-    if(!empty(session_id())){
+function setSession($key, $value)
+{
+    if (!empty(session_id())) {
         $_SESSION[$key] = $value;
         return true;
     }
@@ -15,11 +16,12 @@ function setSession($key, $value) {
 
 
 // Lấy dữ liệu từ session
-function getSession($key = ''){
-    if(empty($key)){
+function getSession($key = '')
+{
+    if (empty($key)) {
         return $_SESSION;
-    }else {
-        if(isset($_SESSION[$key])){
+    } else {
+        if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
     }
@@ -28,12 +30,13 @@ function getSession($key = ''){
 
 
 // Xoa session
-function removeSession($key = ''){
-    if(empty($key)){
+function removeSession($key = '')
+{
+    if (empty($key)) {
         session_destroy();
         return true;
-    }else{
-        if(isset($_SESSION[$key])){
+    } else {
+        if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
         return true;
@@ -43,20 +46,21 @@ function removeSession($key = ''){
 
 
 // tao session flash
-function setSessionFlash($key, $value){
-    $key = $key .'Flash';
+function setSessionFlash($key, $value)
+{
+    $key = $key . 'Flash';
     $rel = setSession($key, $value);
     return $rel;
 }
 
 
 // lay sesion flash
-function getSessionFlash($key){
-    $key = $key .'Flash';
+function getSessionFlash($key)
+{
+    $key = $key . 'Flash';
     $rel = getSession($key);
 
     removeSession($key);
 
     return $rel;
 }
-

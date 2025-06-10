@@ -74,9 +74,11 @@ if (isPost()) {
     $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại!!';
     $msg_type = 'danger';
 
+    setSessionFlash('oldData', $filter);
     setSessionFlash('errors', $errors);
   }
 
+  $oldData = getSessionFlash('oldData');
   $errorsArr  = getSessionFlash('errors');
 }
 
