@@ -12,6 +12,7 @@ if (defined('_DEBUG') && _DEBUG) {
 
 require_once 'config.php';
 require_once './includes/connect.php';
+require_once './includes/database.php';
 
 $module = _MODULES;
 $action = _ACTION;
