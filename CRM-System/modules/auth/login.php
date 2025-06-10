@@ -1,4 +1,9 @@
 <?php
+require_once 'config.php';
+require_once './includes/connect.php';
+require_once './includes/database.php';
+require_once './includes/session.php';
+
 if (!defined('_CODE')) {
     die('Access denied...');
 }
@@ -10,57 +15,62 @@ $data = [
 layouts('header-login', $data);
 
 // Kiểm tra trạng thái đăng nhập
-
 if (isLogin()) {
     redirect('?module=home&action=dashboard');
+    exit;
 }
-
 
 if (isPost()) {
     $filterAll = filter();
 
     if (!empty(trim($filterAll['email'])) && !empty(trim($filterAll['password']))) {
-        // kiểm tra đăng nhập
-        $email = $filterAll['email'];
+        $email = filter_var($filterAll['email'], FILTER_SANITIZE_EMAIL);
         $password = $filterAll['password'];
 
-        // Truy vấn lấy thông tin users theo email
-        $userQuery = oneRaw("SELECT password, id FROM users WHERE email = '$email'");
+        // Truy vấn an toàn để tránh SQL injection
+        $query = "SELECT id, password FROM users WHERE email = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $userQuery = $result->fetch_assoc();
 
-        if (!empty($userQuery)) {
+        if ($userQuery) {
             $passwordHash = $userQuery['password'];
             $userId = $userQuery['id'];
-            if (password_verify($password, $passwordHash)) {
 
-                // Kiểm tra xem tài khoản đã login chưa
-                $userLogin = getRows("SELECT * FROM loginToken WHERE user_Id = '$userId'");
+            if (password_verify($password, $passwordHash)) {
+                // Kiểm tra trạng thái đăng nhập
+                $query = "SELECT * FROM loginToken WHERE user_Id = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param('i', $userId);
+                $stmt->execute();
+                $userLogin = $stmt->get_result()->num_rows;
+
                 if ($userLogin > 0) {
-                    setFlashData('msg', 'Tài khoản đang đăng nhập ở 1 nơi khác.');
+                    setFlashData('msg', 'Tài khoản đang đăng nhập ở nơi khác.');
                     setFlashData('msg_type', 'danger');
                     redirect('?module=auth&action=login');
+                    exit;
+                }
+
+                // Tạo token đăng nhập
+                $tokenLogin = sha1(uniqid() . time());
+                $dataInsert = [
+                    'user_Id' => $userId,
+                    'token' => $tokenLogin,
+                    'create_at' => date('Y-m-d H:i:s')
+                ];
+
+                if (insert('loginToken', $dataInsert)) {
+                    setSession('loginToken', $tokenLogin);
+                    setFlashData('msg', 'Đăng nhập thành công!');
+                    setFlashData('msg_type', 'success');
+                    redirect('?module=home&action=dashboard');
+                    exit;
                 } else {
-                    // Tạo token login
-                    $tokenLogin = sha1(uniqid() . time());
-
-                    // Insert vào bảng loginToken
-                    $dataInsert = [
-                        'user_Id' => $userId,
-                        'token' => $tokenLogin,
-                        'create_at' => date('Y-m-d H:i:s')
-                    ];
-
-                    $insertStatus = insert('loginToken', $dataInsert);
-                    if ($insertStatus) {
-                        // Insert thành công
-
-                        //  Lưu cái tokenLogin vào session
-                        setSession('loginToken', $tokenLogin);
-
-                        redirect('?module=home&action=dashboard');
-                    } else {
-                        setFlashData('msg', 'Không thể đăng nhập vui lòng thử lại sau.');
-                        setFlashData('msg_type', 'danger');
-                    }
+                    setFlashData('msg', 'Không thể đăng nhập, vui lòng thử lại sau.');
+                    setFlashData('msg_type', 'danger');
                 }
             } else {
                 setFlashData('msg', 'Mật khẩu không chính xác.');
@@ -79,29 +89,23 @@ if (isPost()) {
 
 $msg = getFlashData('msg');
 $msg_type = getFlashData('msg_type');
-
-
 ?>
 
 <div class="row">
     <div class="col-4" style="margin: 50px auto;">
-        <h2 class="text-center text-uppercase">Đăng nhập quản lý Users </h2>
-        <?php
-        if (!empty($msg)) {
+        <h2 class="text-center text-uppercase">Đăng nhập quản lý Users</h2>
+        <?php if (!empty($msg)) {
             getSmg($msg, $msg_type);
-        }
-
-        ?>
+        } ?>
         <form action="" method="post">
             <div class="form-group mg-form">
-                <label for="">Email</label>
-                <input name="email" type="email" class="form-control" placeholder="Địa chỉ email">
+                <label for="email">Email</label>
+                <input name="email" type="email" class="form-control" placeholder="Địa chỉ email" required>
             </div>
-            <div class="form-group" mg-form>
-                <label for="">Pasword</label>
-                <input name="password" type="password" class="form-control" placeholder="Mật khẩu">
+            <div class="form-group mg-form">
+                <label for="password">Mật khẩu</label>
+                <input name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
             </div>
-
             <button type="submit" class="mg-btn btn btn-primary btn-block">Đăng Nhập</button>
             <hr>
             <p class="text-center"><a href="?module=auth&action=forgot">Quên mật khẩu</a></p>
@@ -109,7 +113,6 @@ $msg_type = getFlashData('msg_type');
         </form>
     </div>
 </div>
-
 
 <?php
 layouts('footer-login');
