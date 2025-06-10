@@ -13,9 +13,9 @@ try {
         ];
 
         $conn = new PDO($dsn, _USER, _PASS, $options);
-        if ($conn) {
-            echo ' Kết nối thành công ';
-        }
+        // if ($conn) {
+        //     echo ' Kết nối thành công ';
+        // }
     }
 } catch (Exception $exception) {
     echo '<div style="color:red; padding: 5px 15px;border: 1px solid red;">';
