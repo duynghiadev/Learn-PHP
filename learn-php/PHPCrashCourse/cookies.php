@@ -6,7 +6,7 @@
     echo "Cookies in PHP<br>";
     //save data to cookie
     setcookie('name', 'Hoang', time() + 24*3600);
-    //after 1 day, cookie will be expired 
+    //after 1 day, cookie will be expired
     //1 month = 24*3600*30
     //check the existing cookie
     if(isset($_COOKIE['name'])) {

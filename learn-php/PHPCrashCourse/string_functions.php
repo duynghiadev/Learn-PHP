@@ -15,7 +15,7 @@
     if(str_ends_with(strtolower($full_name), 'hoang')) {
         echo "His name ends with hoang <br>";
     }
-    echo "<h1>html string</h1>";    
+    echo "<h1>html string</h1>";
     //how to ignore the html string ?
     echo htmlspecialchars("<h1>html string</h1>");
     //echo "<script>alert('This is javascript code')</script>";

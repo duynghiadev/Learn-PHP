@@ -15,13 +15,13 @@
     $hex_colors = [
         'red' => '#FF0000',
         'green' => '#00FF00',
-        'blue' => '#0000FF',  
+        'blue' => '#0000FF',
     ];
     // echo $hex_colors['green'];
     $person = [
         'full_name' => 'Nguyen Duc Hoang',
         'age' => 43,
-        'email' => 'sunlight4d@gmail.com' 
+        'email' => 'sunlight4d@gmail.com'
     ];
     //print_r($person);
     //echo $person['email'];
@@ -29,17 +29,17 @@
         [
             'full_name' => 'Nguyen Duc Hoang',
             'age' => 43,
-            'email' => 'sunlight4d@gmail.com' 
+            'email' => 'sunlight4d@gmail.com'
         ],
         [
             'full_name' => 'John Dang',
             'age' => 18,
-            'email' => 'john@gmail.com' 
+            'email' => 'john@gmail.com'
         ],
         [
             'full_name' => 'Kelly',
             'age' => 40,
-            'email' => 'kelly123@gmail.com' 
+            'email' => 'kelly123@gmail.com'
         ]
     ];
     //print_r($persons);

@@ -43,8 +43,8 @@
     //print_r($chunked_array);
     $array_one = [1, 3, 5];
     $array_two = [2, 4, 6];
-    $merged_array = array_merge($array_one, $array_two);    
-    //spread operator 
+    $merged_array = array_merge($array_one, $array_two);
+    //spread operator
     $array_three = [...$merged_array];//clone an array
     $merged_array[0] = 111;
     //print_r($merged_array);
@@ -65,13 +65,13 @@
     print_r($numbers);
     //map an array to another array
     //with the same size, but other values
-    $squared_numbers = array_map(fn($each_number) => 
+    $squared_numbers = array_map(fn($each_number) =>
         $each_number * $each_number
     , $numbers);
     print_r($squared_numbers);
     //filter an array
-    $filtered_numbers = array_filter($numbers, 
+    $filtered_numbers = array_filter($numbers,
         fn($each_number) => $each_number % 2 == 0);
     print_r($filtered_numbers);
 
-?> 
+?>

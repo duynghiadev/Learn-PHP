@@ -28,13 +28,13 @@
     */
     // echo !empty($comments) ? "There are comments":
     //                         'No comments';
-    
-    // $first_comment = !empty($comments) 
+
+    // $first_comment = !empty($comments)
     //                 ? $comments[0] :'No comments';
     //coalescing operator
-    // $first_comment = $comments[0] ?? 'No comments'; 
+    // $first_comment = $comments[0] ?? 'No comments';
     // echo $first_comment;
-    
+
     $favorite_color = 'red';
     switch($favorite_color) {
         case 'red':
@@ -46,7 +46,7 @@
         case 'blue':
             echo 'You choose BLUE';
             break;
-        default: 
+        default:
             echo 'Not RED, GREEN, BLUE';
     }
 

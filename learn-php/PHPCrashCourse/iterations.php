@@ -11,7 +11,7 @@
     //     $i = $i + 1;
     // }
     //do while = "do first", then check
-    
+
     // do {
     //     echo "ii = $i<br>";
     //     $i = $i + 1;
@@ -34,4 +34,4 @@
     foreach($person as $key => $value) {
         echo "$key : $value <br>";
     }
-?>  
+?>

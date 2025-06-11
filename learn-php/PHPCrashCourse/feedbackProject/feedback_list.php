@@ -1,5 +1,5 @@
 <?php
-    require 'components/header.php'; 
+    require 'components/header.php';
     echo "<h1>List of feedbacks here</h1>";
     $sql = "SELECT name, email, body from feedback;";
     if($connection != null) {
@@ -22,7 +22,7 @@
             }
             echo '</ul>';
         }catch (PDOException $e) {
-            echo "Cannot query data. Error: " . $e->getMessage;
+            echo "Cannot query data. Error: " . $e->getMessage();
         }
     }
     include 'components/footer.php';
