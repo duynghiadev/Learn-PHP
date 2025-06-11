@@ -32,7 +32,7 @@ include_once('./includes/headerNav.php')
 			</div>
 			<div class="item">
 				<div class="container">
-					<img className='imgCarosule' style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/5ii.png" alt="" />
+					<img className='imgCarosule' style="width:100% ; height:315px;cursor:pointer" src="images/carousel/5ii.png" alt="" />
 					<div class="carousel-caption">
 
 					</div>
@@ -42,7 +42,7 @@ include_once('./includes/headerNav.php')
 			</div>
 			<div class="item">
 				<div class="container">
-					<img className='imgCarosule' style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/6ii.png" alt="" />
+					<img className='imgCarosule' style="width:100% ; height:315px;cursor:pointer" src="images/carousel/6ii.png" alt="" />
 					<div class="carousel-caption">
 
 					</div>
