@@ -71,6 +71,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addToCart'])) {
   exit();
 }
 
+// Get related products
+$related_sql = "SELECT p.* FROM products p
+               WHERE p.product_catag = ?
+               AND p.product_id != ?
+               AND p.product_left > 0
+               ORDER BY
+                 p.product_date DESC,
+                 p.product_price ASC
+               ";
+
+$related_stmt = $conn->prepare($related_sql);
+if (!$related_stmt) {
+  die("Lỗi chuẩn bị câu lệnh SQL: " . $conn->error);
+}
+
+$bind_result = $related_stmt->bind_param(
+  "si",
+  $product['product_catag'],
+  $product_id
+);
+
+if (!$bind_result) {
+  die("Lỗi ràng buộc tham số: " . $related_stmt->error);
+}
+
+$execute_result = $related_stmt->execute();
+if (!$execute_result) {
+  die("Lỗi thực thi câu lệnh: " . $related_stmt->error);
+}
+
+$related_result = $related_stmt->get_result();
+$related_products = $related_result->fetch_all(MYSQLI_ASSOC);
+$related_stmt->close();
+
 // Simplified image handling - use the path directly from database
 $display_image_path = 'admin/upload/' . $product['product_img'];
 
@@ -102,6 +136,76 @@ $conn->close();
   <title><?php echo htmlspecialchars($product['product_title']); ?> | E-commerce Store</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="./css/product.css">
+  <style>
+    /* CSS cho phần sản phẩm liên quan */
+    /* CSS cho phần carousel sản phẩm liên quan */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .product-carousel {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s ease;
+      padding: 10px 0;
+    }
+
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-button:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .carousel-button.prev {
+      left: 10px;
+    }
+
+    .carousel-button.next {
+      right: 10px;
+    }
+
+    .product-card {
+      flex: 0 0 calc(25% - 15px);
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 1024px) {
+      .product-card {
+        flex: 0 0 calc(33.33% - 15px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .product-card {
+        flex: 0 0 calc(50% - 10px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-card {
+        flex: 0 0 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -215,6 +319,69 @@ $conn->close();
       </div>
     </div>
   </div>
+
+  <!-- Related Products Section -->
+  <div class="related-products">
+    <div class="container">
+      <h2>Sản phẩm liên quan</h2>
+      <div class="carousel-container">
+        <button class="carousel-button prev" onclick="moveSlide(-1)">❮</button>
+        <div class="product-carousel">
+          <?php if (!empty($related_products)): ?>
+            <?php foreach ($related_products as $related): ?>
+              <?php
+              $related_image_path = 'admin/upload/' . $related['product_img'];
+              if (empty($related['product_img']) || !file_exists($related_image_path)) {
+                $related_image_path = 'admin/upload/default-product.jpg';
+              }
+              ?>
+              <div class="product-card">
+                <a href="product.php?id=<?php echo $related['product_id']; ?>">
+                  <img src="<?php echo $related_image_path; ?>" alt="<?php echo htmlspecialchars($related['product_title']); ?>">
+                  <h3><?php echo htmlspecialchars($related['product_title']); ?></h3>
+                  <p class="price">VND <?php echo number_format($related['product_price'], 0, ',', '.'); ?></p>
+                </a>
+              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p>Hiện chưa có sản phẩm liên quan</p>
+          <?php endif; ?>
+        </div>
+        <button class="carousel-button next" onclick="moveSlide(1)">❯</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Carousel functionality
+    let currentSlide = 0;
+    const carousel = document.querySelector('.product-carousel');
+    const products = document.querySelectorAll('.product-card');
+    const productCount = products.length;
+    const productsPerSlide = 4; // Số sản phẩm hiển thị cùng lúc
+
+    function moveSlide(direction) {
+      const maxSlides = Math.ceil(productCount / productsPerSlide) - 1;
+
+      currentSlide += direction;
+
+      if (currentSlide < 0) {
+        currentSlide = maxSlides;
+      } else if (currentSlide > maxSlides) {
+        currentSlide = 0;
+      }
+
+      const productWidth = products[0].offsetWidth + 20; // 20 là gap
+      const moveDistance = -currentSlide * productWidth * productsPerSlide;
+
+      carousel.style.transform = `translateX(${moveDistance}px)`;
+    }
+
+    // Tự động điều chỉnh khi resize
+    window.addEventListener('resize', function() {
+      moveSlide(0);
+    });
+  </script>
 
   <div class="zoom-overlay" id="zoom-overlay">
     <img src="" class="zoomed-image" id="zoomed-image">
