@@ -75,4 +75,7 @@
     print_r($persons);
     echo "Email of 3rd person: " . $persons[2]['email'] . "\n";
     echo "</pre>";
+
+    var_dump(json_encode($persons, JSON_PRETTY_PRINT));
+    echo "<br>";
 ?>
