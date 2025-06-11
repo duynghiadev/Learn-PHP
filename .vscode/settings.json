@@ -20,6 +20,8 @@
     "RETURNTRANSFER",
     "servicestatus",
     "soldproducts",
+    "tabledata",
+    "tablehead",
     "thumnail",
     "Toastify",
     "Unathorized",

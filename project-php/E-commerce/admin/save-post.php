@@ -38,4 +38,6 @@ if ($error === false) {
   $result = $conn->query($sql);
   $conn->close();
   header("location:post.php?success");
+  // header("Location:http://localhost/Learn-PHP/project-php/E-commerce/admin/post.php?success");
+  // header("Location:http://localhost/Learn-PHP/project-php/E-commerce/admin/post.php?success");
 }
