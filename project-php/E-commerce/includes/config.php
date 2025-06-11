@@ -8,10 +8,10 @@ $dBPassword = "";
 $dBName = "electric-shop";
 
 //Before we can access data in the MySQL database, we need to be able to connect to the server i.e php
-$conn = new mysqli($serverName,$dBUsername,$dBPassword,$dBName );
+$conn = new mysqli($serverName, $dBUsername, $dBPassword, $dBName);
 
 // Check connection
-if(!$conn){
-    die("Connection failed: ".$conn->connect_error());
+if (!$conn) {
+    die("Connection failed: " . $conn->connect_error());
 }
 ?>
