@@ -120,7 +120,9 @@ include_once('./stripeConfig.php');
           </div>
         <?php
         } else {
-          echo "<p>0 Results <br> No items in your cart.</p>";
+          echo '<div style="text-align: center; padding: 40px;">';
+          echo '<h3>Your cart is empty</h3>';
+          echo '<a href="index.php" class="btn" style="background: #11C9B6;">Start Shopping</a>';
         }
         ?>
       </div>
