@@ -26,9 +26,9 @@ if ($conn->query($sqlChanceStatus)) {
     if ($conn->query($sqlInsertBillData)) {
         // header("Location : menu.php?tableNo=" . $_REQUEST['tableNo']);
     ?>
-    <script>
-        window.location = "menu.php?tableNo=<?php echo $_REQUEST['tableNo']?>";
-    </script>
-    <?php
+<script>
+window.location = "menu.php?tableNo=<?php echo $_REQUEST['tableNo']?>";
+</script>
+<?php
     }
 }

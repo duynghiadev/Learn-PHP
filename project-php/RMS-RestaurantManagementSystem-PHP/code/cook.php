@@ -16,9 +16,9 @@ if ($conn->connect_error) {
 if ($conn->query($sqlChanceStatus)) {
     // header("Location : dashboard.php");
     ?>
-    <script>
-        window.location = "dashboard.php";
-    </script>
-    <?php
+<script>
+window.location = "dashboard.php";
+</script>
+<?php
 }
 ?>
