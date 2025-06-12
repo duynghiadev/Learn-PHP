@@ -86,9 +86,13 @@ class <span class="class">User</span> extends <span class="abstract">Model</span
   <div class="output">
     <pre>
 User 1: <?= htmlspecialchars((string)$user1) ?>
+</pre>
+    <pre>
 User 2: <?= htmlspecialchars((string)$user2) ?>
+</pre>
+    <pre>
 Total Instances: <?= User::getInstanceCount() ?>
-        </pre>
+</pre>
   </div>
 
   <h2>2. Methods, Interfaces, and Authentication</h2>
@@ -110,9 +114,10 @@ class <span class="class">User</span> extends <span class="abstract">Model</span
   </div>
   <div class="output">
     <pre>
-Authentication: <?= $authResult ? 'Success' : 'Failed' ?>
+Authentication: <?= $authResult ? 'Success' : 'Failed' ?> </pre>
+    <pre>
 Password Update: <?= $passwordUpdated ? 'Success' : 'Failed' ?>
-        </pre>
+    </pre>
   </div>
 
   <h2>3. Constructors, Inheritance, and Polymorphism</h2>
@@ -140,9 +145,13 @@ class <span class="class">Employee</span> extends <span class="class">User</span
   <div class="output">
     <pre>
 Employee: <?= htmlspecialchars((string)$employee1) ?>
+</pre>
+    <pre>
 Salary: $<?= number_format($employee1->getSalary(), 2) ?>
+</pre>
+    <pre>
 Department: <?= htmlspecialchars($employee1->getDepartment()) ?>
-        </pre>
+</pre>
   </div>
 
   <h2>4. Abstract Classes and Magic Methods</h2>
@@ -168,8 +177,10 @@ abstract class <span class="abstract">Model</span> {
   <div class="output">
     <pre>
 Custom Field: <?= htmlspecialchars($user1->custom_field) ?>
+</pre>
+    <pre>
 Table Name: <?= htmlspecialchars(User::getTable()) ?>
-        </pre>
+</pre>
   </div>
 
   <div class="note">
