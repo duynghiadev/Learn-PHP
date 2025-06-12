@@ -1,0 +1,45 @@
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.login-container {
+  max-width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.login-header {
+  background: linear-gradient(to right, #3498db, #2c3e50);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.login-body {
+  padding: 30px;
+  background: white;
+}
+
+.form-floating label {
+  color: #495057;
+}
+
+.btn-login {
+  background: linear-gradient(to right, #3498db, #2c3e50);
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.password-toggle {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
