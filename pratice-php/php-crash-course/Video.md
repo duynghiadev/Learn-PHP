@@ -1,3 +1,7 @@
+[Học lập trình PHP cơ bản cho người mới bắt đầu | Học PHP trong 3 giờ | PHP Full course 3 hours](https://www.youtube.com/watch?v=r1qie9pDweE)
+
+---
+
 # Video này hướng dẫn cho các bạn về học lập trình PHP cơ bản, phiên bản PHP 8.1
 
 [0:22](https://www.youtube.com/watch?v=r1qie9pDweE&t=22s) - Giới thiệu về khóa học PHP cơ bản trong 3 giờ
