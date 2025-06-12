@@ -12,9 +12,9 @@
 [45:15](https://www.youtube.com/watch?v=r1qie9pDweE&t=2715s) - Hàm(function) trong PHP
 [51:38](https://www.youtube.com/watch?v=r1qie9pDweE&t=3098s) - Các hàm làm việc với mảng(array)
 [1:05:03](https://www.youtube.com/watch?v=r1qie9pDweE&t=3903s) - Các hàm xử lý xâu ký tự(string functions)
-[1:11:30](https://www.youtube.com/watch?v=r1qie9pDweE&t=4290s) - Các biến super global: `$_GET`, `$_POST`, `$_SERVER`✅
+[1:11:30](https://www.youtube.com/watch?v=r1qie9pDweE&t=4290s) - Các biến super global: `$_GET`, `$_POST`, `$_SERVER`
 [1:19:38](https://www.youtube.com/watch?v=r1qie9pDweE&t=4778s) - Nhập và xử lý dữ liệu trên Form
-[1:30:19](https://www.youtube.com/watch?v=r1qie9pDweE&t=5419s) - Lưu dữ liệu lên trình duyệt với Cookies
+[1:30:19](https://www.youtube.com/watch?v=r1qie9pDweE&t=5419s) - Lưu dữ liệu lên trình duyệt với Cookies✅
 [1:35:08](https://www.youtube.com/watch?v=r1qie9pDweE&t=5708s) - Làm việc với Session trong PHP
 [1:46:05](https://www.youtube.com/watch?v=r1qie9pDweE&t=6365s) - Thao tác đọc, ghi File trong PHP
 [2:04:58](https://www.youtube.com/watch?v=r1qie9pDweE&t=7498s) - Xử lý ngoại lệ với try-catch-finally
