@@ -16,8 +16,8 @@
 [1:19:38](https://www.youtube.com/watch?v=r1qie9pDweE&t=4778s) - Nhập và xử lý dữ liệu trên Form
 [1:30:19](https://www.youtube.com/watch?v=r1qie9pDweE&t=5419s) - Lưu dữ liệu lên trình duyệt với Cookies
 [1:35:08](https://www.youtube.com/watch?v=r1qie9pDweE&t=5708s) - Làm việc với Session trong PHP
-[1:46:05](https://www.youtube.com/watch?v=r1qie9pDweE&t=6365s) - Thao tác đọc, ghi File trong PHP✅
-[2:04:58](https://www.youtube.com/watch?v=r1qie9pDweE&t=7498s) - Xử lý ngoại lệ với try-catch-finally
+[1:46:05](https://www.youtube.com/watch?v=r1qie9pDweE&t=6365s) - Thao tác đọc, ghi File trong PHP
+[2:04:58](https://www.youtube.com/watch?v=r1qie9pDweE&t=7498s) - Xử lý ngoại lệ với try-catch-finally✅
 [2:11:17](https://www.youtube.com/watch?v=r1qie9pDweE&t=7877s) - Lớp(class) và đối tượng(object)
 [2:14:07](https://www.youtube.com/watch?v=r1qie9pDweE&t=8047s) - Khai báo phương thức bên trong 1 đối tượng
 [2:17:19](https://www.youtube.com/watch?v=r1qie9pDweE&t=8239s) - Hàm khởi tạo(constructor) trong PHP
