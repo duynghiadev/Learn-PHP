@@ -1,53 +1,60 @@
 <?php
-    // echo "We talk about conditional in PHP<br>";
+    echo "<h2>Conditional Statements in PHP</h2>";
+
+    // 1. Age Check
     $age = 15;
-    // if($age >= 18) {
-    //     echo "You are greater than or equal to 18 years old";
-    // } else {
-    //     echo "You are so young";
-    // }
-    //$hours = date("H");
-    $hours = 18;
-    //echo $hours;
-    // if($hours < 12) {
-    //     echo "Good morning";
-    // } else if($hours >= 12 && $hours <= 17) {
-    //     echo "Good afternoon";
-    // } else {
-    //     echo "Good evening";
-    // }
-    $comments = [
-        'Good question', 'I like it', 'How are you ?'
-    ];
-    /*
-    if(!empty($comments)) { //not = !
-        echo "There are some comments";
+    echo "<h3>1. Age Check</h3>";
+    if ($age >= 18) {
+        echo "You are 18 years old or older.";
     } else {
-        echo 'No comments';
+        echo "You are so young.";
     }
-    */
-    // echo !empty($comments) ? "There are comments":
-    //                         'No comments';
 
-    // $first_comment = !empty($comments)
-    //                 ? $comments[0] :'No comments';
-    //coalescing operator
-    // $first_comment = $comments[0] ?? 'No comments';
-    // echo $first_comment;
+    // 2. Greeting Based on Time
+    echo "<h3>2. Greeting Based on Time</h3>";
+    // $hours = date("H");
+    $hours = 18;
+    echo "Current hour: $hours<br>";
 
+    if ($hours < 12) {
+        echo "Good morning!";
+    } elseif ($hours >= 12 && $hours <= 17) {
+        echo "Good afternoon!";
+    } else {
+        echo "Good evening!";
+    }
+
+    // 3. Comments Check (Ternary & Null Coalescing)
+    $comments = [
+        'Good question', 'I like it', 'How are you?'
+    ];
+
+    echo "<h3>3. Comments Check</h3>";
+
+    // Using ternary operator
+    echo !empty($comments)
+        ? "There are comments.<br>"
+        : "No comments.<br>";
+
+    // Using null coalescing operator
+    $first_comment = $comments[0] ?? 'No comments';
+    echo "First comment: $first_comment";
+
+    // 4. Favorite Color with switch
+    echo "<h3>4. Favorite Color</h3>";
     $favorite_color = 'red';
-    switch($favorite_color) {
+
+    switch ($favorite_color) {
         case 'red':
-            echo 'You choose RED';
+            echo "You chose <strong>RED</strong>.";
             break;
         case 'green':
-            echo 'You choose GREEN';
+            echo "You chose <strong>GREEN</strong>.";
             break;
         case 'blue':
-            echo 'You choose BLUE';
+            echo "You chose <strong>BLUE</strong>.";
             break;
         default:
-            echo 'Not RED, GREEN, BLUE';
+            echo "You did not choose red, green, or blue.";
     }
-
 ?>
