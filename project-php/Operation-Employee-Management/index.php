@@ -8,9 +8,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
 ">
-
-
-
   <style>
   /* for showing validation msg red */
   * {
@@ -57,9 +54,6 @@
 </head>
 
 <body>
-
-
-
   <nav class="navbar navbar-expand-lg navbar-dark mycolor">
     <a class="navbar-brand" href="index.php">Employee Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -121,18 +115,15 @@
                 //Create Connection
                 $connection = new mysqli($servername, $username, $password, $database);
 
-                //Check connection stablished or not!
+                //Check connection stablish or not!
                 if ($connection->connect_error) {
                     die("Connection failed: " . $connection->connect_error);
                 } else {
-                    //echo "Connection Stablished";
+                    //echo "Connection Stablish";
                     //read all data from database table for employee details
                     $sql = "SELECT * from employee";
                     $result = $connection->query($sql);
                 }
-
-
-
                 if (!$result) {
                     die("Invalid query : " . $connection->error);
                 } else {
@@ -156,13 +147,7 @@
                     ";
                     }
                 }
-
-
-
-
-
                 ?>
-
       </tbody>
     </table>
   </div>
