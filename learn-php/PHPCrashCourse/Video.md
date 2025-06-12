@@ -8,8 +8,8 @@
 [13:02](https://www.youtube.com/watch?v=r1qie9pDweE&t=782s) - Khai báo biến(variable) và hăng(const)
 [20:35](https://www.youtube.com/watch?v=r1qie9pDweE&t=1235s) - Dữ liệu kiểu mảng(array) và kiểu đối tượng dạng key-value hay Associative Array
 [28:06](https://www.youtube.com/watch?v=r1qie9pDweE&t=1686s) - Câu lệnh điều kiện với if và switch case
-[38:42](https://www.youtube.com/watch?v=r1qie9pDweE&t=2322s) - Duyệt danh sách với vòng lặp for và while✅✅✅✅
-[45:15](https://www.youtube.com/watch?v=r1qie9pDweE&t=2715s) - Hàm(function) trong PHP
+[38:42](https://www.youtube.com/watch?v=r1qie9pDweE&t=2322s) - Duyệt danh sách với vòng lặp for và while
+[45:15](https://www.youtube.com/watch?v=r1qie9pDweE&t=2715s) - Hàm(function) trong PHP✅✅✅✅
 [51:38](https://www.youtube.com/watch?v=r1qie9pDweE&t=3098s) - Các hàm làm việc với mảng(array)
 [1:05:03](https://www.youtube.com/watch?v=r1qie9pDweE&t=3903s) - Các hàm xử lý xâu ký tự(string functions)
 [1:11:30](https://www.youtube.com/watch?v=r1qie9pDweE&t=4290s) - Các biến super global: `$_GET`, `$_GET`, `$_SERVER`
