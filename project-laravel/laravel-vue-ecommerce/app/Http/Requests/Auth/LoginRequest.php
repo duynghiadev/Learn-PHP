@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class LoginRequest extends FormRequest
 {
@@ -56,13 +57,32 @@ class LoginRequest extends FormRequest
 
         $user = $this->user();
         $customer = $user->customer;
+
+        // Check if customer exists
+        if (!$customer) {
+            Auth::guard('web')->logout();
+            $this->session()->invalidate();
+            $this->session()->regenerateToken();
+
+            // Log for debugging (remove in production)
+            Log::warning('Login failed: No customer profile for user ID ' . $user->id);
+
+            throw ValidationException::withMessages([
+                'email' => 'No customer profile is associated with this account.',
+            ]);
+        }
+
+        // Check if customer status is not active
         if ($customer->status !== CustomerStatus::Active->value) {
             Auth::guard('web')->logout();
             $this->session()->invalidate();
             $this->session()->regenerateToken();
 
+            // Log for debugging (remove in production)
+            Log::warning('Login failed: Customer status is not active for user ID ' . $user->id . ', status: ' . $customer->status);
+
             throw ValidationException::withMessages([
-                'email' => 'Your account has been disabled',
+                'email' => 'Your account has been disabled.',
             ]);
         }
 
