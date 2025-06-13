@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 09, 2019 lúc 04:16 PM
--- Phiên bản máy phục vụ: 10.1.40-MariaDB
--- Phiên bản PHP: 7.3.5
+-- Host: localhost
+-- Generation Time: Jun 13, 2025 at 05:48 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `bandienmay`
+-- Database: `bandienmay`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_admin`
+-- Table structure for table `tbl_admin`
 --
 
 CREATE TABLE `tbl_admin` (
@@ -33,19 +32,20 @@ CREATE TABLE `tbl_admin` (
   `email` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
   `admin_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_admin`
+-- Dumping data for table `tbl_admin`
 --
 
 INSERT INTO `tbl_admin` (`admin_id`, `email`, `password`, `admin_name`) VALUES
-(1, 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Hiếu Tấn');
+(1, 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Hiếu Tấn'),
+(2, 'duynghia@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'Duy Nghia Admin');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_baiviet`
+-- Table structure for table `tbl_baiviet`
 --
 
 CREATE TABLE `tbl_baiviet` (
@@ -55,10 +55,10 @@ CREATE TABLE `tbl_baiviet` (
   `noidung` text NOT NULL,
   `danhmuctin_id` int(11) NOT NULL,
   `baiviet_image` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_baiviet`
+-- Dumping data for table `tbl_baiviet`
 --
 
 INSERT INTO `tbl_baiviet` (`baiviet_id`, `tenbaiviet`, `tomtat`, `noidung`, `danhmuctin_id`, `baiviet_image`) VALUES
@@ -71,16 +71,16 @@ INSERT INTO `tbl_baiviet` (`baiviet_id`, `tenbaiviet`, `tomtat`, `noidung`, `dan
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_category`
+-- Table structure for table `tbl_category`
 --
 
 CREATE TABLE `tbl_category` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_category`
+-- Dumping data for table `tbl_category`
 --
 
 INSERT INTO `tbl_category` (`category_id`, `category_name`) VALUES
@@ -93,16 +93,16 @@ INSERT INTO `tbl_category` (`category_id`, `category_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_danhmuc_tin`
+-- Table structure for table `tbl_danhmuc_tin`
 --
 
 CREATE TABLE `tbl_danhmuc_tin` (
   `danhmuctin_id` int(11) NOT NULL,
   `tendanhmuc` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_danhmuc_tin`
+-- Dumping data for table `tbl_danhmuc_tin`
 --
 
 INSERT INTO `tbl_danhmuc_tin` (`danhmuctin_id`, `tendanhmuc`) VALUES
@@ -114,7 +114,7 @@ INSERT INTO `tbl_danhmuc_tin` (`danhmuctin_id`, `tendanhmuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_donhang`
+-- Table structure for table `tbl_donhang`
 --
 
 CREATE TABLE `tbl_donhang` (
@@ -123,13 +123,13 @@ CREATE TABLE `tbl_donhang` (
   `soluong` int(11) NOT NULL,
   `mahang` varchar(50) NOT NULL,
   `khachhang_id` int(11) NOT NULL,
-  `ngaythang` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ngaythang` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `tinhtrang` int(11) NOT NULL,
-  `huydon` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `huydon` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_donhang`
+-- Dumping data for table `tbl_donhang`
 --
 
 INSERT INTO `tbl_donhang` (`donhang_id`, `sanpham_id`, `soluong`, `mahang`, `khachhang_id`, `ngaythang`, `tinhtrang`, `huydon`) VALUES
@@ -167,7 +167,7 @@ INSERT INTO `tbl_donhang` (`donhang_id`, `sanpham_id`, `soluong`, `mahang`, `kha
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_giaodich`
+-- Table structure for table `tbl_giaodich`
 --
 
 CREATE TABLE `tbl_giaodich` (
@@ -175,14 +175,14 @@ CREATE TABLE `tbl_giaodich` (
   `sanpham_id` int(11) NOT NULL,
   `soluong` int(11) NOT NULL,
   `magiaodich` varchar(50) NOT NULL,
-  `ngaythang` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ngaythang` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `khachhang_id` int(11) NOT NULL,
-  `tinhtrangdon` int(11) NOT NULL DEFAULT '0',
-  `huydon` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `tinhtrangdon` int(11) NOT NULL DEFAULT 0,
+  `huydon` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_giaodich`
+-- Dumping data for table `tbl_giaodich`
 --
 
 INSERT INTO `tbl_giaodich` (`giaodich_id`, `sanpham_id`, `soluong`, `magiaodich`, `ngaythang`, `khachhang_id`, `tinhtrangdon`, `huydon`) VALUES
@@ -200,12 +200,14 @@ INSERT INTO `tbl_giaodich` (`giaodich_id`, `sanpham_id`, `soluong`, `magiaodich`
 (14, 27, 1, '6687', '2019-10-09 09:48:42', 27, 1, 2),
 (15, 22, 1, '1125', '2019-10-09 09:47:17', 27, 1, 2),
 (16, 24, 1, '1125', '2019-10-09 09:47:17', 27, 1, 2),
-(17, 20, 1, '555', '2019-10-09 09:50:08', 27, 0, 2);
+(17, 20, 1, '555', '2019-10-09 09:50:08', 27, 0, 2),
+(18, 26, 1, '2579', '2025-06-13 03:39:59', 29, 0, 0),
+(19, 21, 4, '2579', '2025-06-13 03:39:59', 29, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_giohang`
+-- Table structure for table `tbl_giohang`
 --
 
 CREATE TABLE `tbl_giohang` (
@@ -215,20 +217,12 @@ CREATE TABLE `tbl_giohang` (
   `giasanpham` varchar(50) NOT NULL,
   `hinhanh` varchar(50) NOT NULL,
   `soluong` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Đang đổ dữ liệu cho bảng `tbl_giohang`
---
-
-INSERT INTO `tbl_giohang` (`giohang_id`, `tensanpham`, `sanpham_id`, `giasanpham`, `hinhanh`, `soluong`) VALUES
-(1, 'Máy giặc Samsung', 26, '105000000', 'm8.jpg', 1),
-(2, 'Galaxy A15', 21, '15000000', 'mk3.jpg', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_khachhang`
+-- Table structure for table `tbl_khachhang`
 --
 
 CREATE TABLE `tbl_khachhang` (
@@ -240,10 +234,10 @@ CREATE TABLE `tbl_khachhang` (
   `email` varchar(150) NOT NULL,
   `password` varchar(100) NOT NULL,
   `giaohang` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_khachhang`
+-- Dumping data for table `tbl_khachhang`
 --
 
 INSERT INTO `tbl_khachhang` (`khachhang_id`, `name`, `phone`, `address`, `note`, `email`, `password`, `giaohang`) VALUES
@@ -256,12 +250,13 @@ INSERT INTO `tbl_khachhang` (`khachhang_id`, `name`, `phone`, `address`, `note`,
 (25, 'Hoàng Kha', '0932023992', '123/123', 'dasdasdas', 'hoangkha@gmail.com', '', 1),
 (26, 'Trương Lưu', '0932023992', '123/123', 'dasdasdas', 'truongluu@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1),
 (27, 'Trương Huệ Mẫn', '0932023992', '123', 'dasdasdasd', 'hueman@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0),
-(28, 'Hoa', '0932023992', '123/123', 'dasdasdads', 'hoa@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0);
+(28, 'Hoa', '0932023992', '123/123', 'dasdasdads', 'hoa@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0),
+(29, 'Le Nghia', '0333333333', 'Đà nẵng', 'test acc', 'lndnghia.20it7@vku.udn.vn', 'e10adc3949ba59abbe56e057f20f883e', 0);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_sanpham`
+-- Table structure for table `tbl_sanpham`
 --
 
 CREATE TABLE `tbl_sanpham` (
@@ -276,10 +271,10 @@ CREATE TABLE `tbl_sanpham` (
   `sanpham_hot` int(11) NOT NULL,
   `sanpham_soluong` int(11) NOT NULL,
   `sanpham_image` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_sanpham`
+-- Dumping data for table `tbl_sanpham`
 --
 
 INSERT INTO `tbl_sanpham` (`sanpham_id`, `category_id`, `sanpham_name`, `sanpham_chitiet`, `sanpham_mota`, `sanpham_gia`, `sanpham_giakhuyenmai`, `sanpham_active`, `sanpham_hot`, `sanpham_soluong`, `sanpham_image`) VALUES
@@ -298,18 +293,18 @@ INSERT INTO `tbl_sanpham` (`sanpham_id`, `category_id`, `sanpham_name`, `sanpham
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tbl_slider`
+-- Table structure for table `tbl_slider`
 --
 
 CREATE TABLE `tbl_slider` (
   `slider_id` int(11) NOT NULL,
   `slider_image` varchar(100) NOT NULL,
   `slider_caption` text NOT NULL,
-  `slider_active` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `slider_active` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `tbl_slider`
+-- Dumping data for table `tbl_slider`
 --
 
 INSERT INTO `tbl_slider` (`slider_id`, `slider_image`, `slider_caption`, `slider_active`) VALUES
@@ -317,129 +312,129 @@ INSERT INTO `tbl_slider` (`slider_id`, `slider_image`, `slider_caption`, `slider
 (2, 'b3.jpg', 'Slider 50%', 0);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `tbl_admin`
+-- Indexes for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`admin_id`);
 
 --
--- Chỉ mục cho bảng `tbl_baiviet`
+-- Indexes for table `tbl_baiviet`
 --
 ALTER TABLE `tbl_baiviet`
   ADD PRIMARY KEY (`baiviet_id`);
 
 --
--- Chỉ mục cho bảng `tbl_category`
+-- Indexes for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Chỉ mục cho bảng `tbl_danhmuc_tin`
+-- Indexes for table `tbl_danhmuc_tin`
 --
 ALTER TABLE `tbl_danhmuc_tin`
   ADD PRIMARY KEY (`danhmuctin_id`);
 
 --
--- Chỉ mục cho bảng `tbl_donhang`
+-- Indexes for table `tbl_donhang`
 --
 ALTER TABLE `tbl_donhang`
   ADD PRIMARY KEY (`donhang_id`);
 
 --
--- Chỉ mục cho bảng `tbl_giaodich`
+-- Indexes for table `tbl_giaodich`
 --
 ALTER TABLE `tbl_giaodich`
   ADD PRIMARY KEY (`giaodich_id`);
 
 --
--- Chỉ mục cho bảng `tbl_giohang`
+-- Indexes for table `tbl_giohang`
 --
 ALTER TABLE `tbl_giohang`
   ADD PRIMARY KEY (`giohang_id`);
 
 --
--- Chỉ mục cho bảng `tbl_khachhang`
+-- Indexes for table `tbl_khachhang`
 --
 ALTER TABLE `tbl_khachhang`
   ADD PRIMARY KEY (`khachhang_id`);
 
 --
--- Chỉ mục cho bảng `tbl_sanpham`
+-- Indexes for table `tbl_sanpham`
 --
 ALTER TABLE `tbl_sanpham`
   ADD PRIMARY KEY (`sanpham_id`);
 
 --
--- Chỉ mục cho bảng `tbl_slider`
+-- Indexes for table `tbl_slider`
 --
 ALTER TABLE `tbl_slider`
   ADD PRIMARY KEY (`slider_id`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `tbl_admin`
+-- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_baiviet`
+-- AUTO_INCREMENT for table `tbl_baiviet`
 --
 ALTER TABLE `tbl_baiviet`
   MODIFY `baiviet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_category`
+-- AUTO_INCREMENT for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_danhmuc_tin`
+-- AUTO_INCREMENT for table `tbl_danhmuc_tin`
 --
 ALTER TABLE `tbl_danhmuc_tin`
   MODIFY `danhmuctin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_donhang`
+-- AUTO_INCREMENT for table `tbl_donhang`
 --
 ALTER TABLE `tbl_donhang`
   MODIFY `donhang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_giaodich`
+-- AUTO_INCREMENT for table `tbl_giaodich`
 --
 ALTER TABLE `tbl_giaodich`
-  MODIFY `giaodich_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `giaodich_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_giohang`
+-- AUTO_INCREMENT for table `tbl_giohang`
 --
 ALTER TABLE `tbl_giohang`
   MODIFY `giohang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_khachhang`
+-- AUTO_INCREMENT for table `tbl_khachhang`
 --
 ALTER TABLE `tbl_khachhang`
-  MODIFY `khachhang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `khachhang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_sanpham`
+-- AUTO_INCREMENT for table `tbl_sanpham`
 --
 ALTER TABLE `tbl_sanpham`
   MODIFY `sanpham_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT cho bảng `tbl_slider`
+-- AUTO_INCREMENT for table `tbl_slider`
 --
 ALTER TABLE `tbl_slider`
   MODIFY `slider_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
