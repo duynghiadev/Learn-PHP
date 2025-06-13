@@ -12,7 +12,8 @@ use App\Models\tblphuongxa;
 use App\Models\tbltinhthanhpho;
 use App\Models\tblloaithe;
 use Session;
-use DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class KhachHangCaNhanController extends Controller
 {
@@ -123,7 +124,7 @@ class KhachHangCaNhanController extends Controller
             'NgheNghiep' => $request->NgheNghiep,
             'DoanhThu' => $request->DoanhThu,
             'HoSoCaNhan' => $hoSoPath,
-            'MaNV' => Session::get('MaNV'),
+            'MaNV' => session()->get('MaNV'),
         ]);
         //Tạo bản ghi cho khách hàng
         $khachHang = new tblkhachhang();
@@ -253,7 +254,7 @@ class KhachHangCaNhanController extends Controller
             'NgheNghiep' => $request->NgheNghiep,
             'DoanhThu' => $request->DoanhThu,
             'HoSoCaNhan' => $hoSoPath,
-            'MaNV' => Session::get('MaNV'),
+            'MaNV' => session()->get('MaNV'),
         ]);
 
         // Cập nhật tblkhachhang
@@ -287,7 +288,7 @@ class KhachHangCaNhanController extends Controller
 
         // Xóa file hồ sơ nếu có
         if ($khachhangcanhan->HoSoCaNhan) {
-            \Storage::disk('public')->delete($khachhangcanhan->HoSoCaNhan);
+            Storage::disk('public')->delete($khachhangcanhan->HoSoCaNhan);
         }
 
         $khachhangcanhan->delete();

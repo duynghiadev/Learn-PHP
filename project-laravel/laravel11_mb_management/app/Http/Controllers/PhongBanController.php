@@ -90,7 +90,7 @@ class PhongBanController extends Controller
      */
     public function destroy(string $id)
     {
-        $phongban = tblphongban::find($MaPB);
+        $phongban = tblphongban::where('MaPB', $id)->first();
 
         if ($phongban) {
             $phongban->delete();

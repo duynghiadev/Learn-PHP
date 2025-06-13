@@ -14,7 +14,7 @@ use App\Models\tbltinhthanhpho;
 use App\Models\tblphuongxa;
 use App\Models\tblthanhtoanhoadon;
 use Session;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class GiaoDichController extends Controller
 {
@@ -273,7 +273,7 @@ class GiaoDichController extends Controller
                 'NoiDung' => $request->NoiDung,
                 'ViTri' => $request->ViTri,
                 'NgayTao' => $request->NgayTao,
-                'MaNV' => Session::get('MaNV'),
+                'MaNV' => session('MaNV'),
                 'SoTK' => $request->SoTK,
             ]);
 
@@ -364,7 +364,7 @@ class GiaoDichController extends Controller
                 'NoiDung' => $request->NoiDung,
                 'ViTri' => $request->ViTri,
                 'NgayTao' => $request->NgayTao,
-                'MaNV' => Session::get('MaNV'),
+                'MaNV' => session('MaNV'),
                 'SoTK' => $request->SoTK,
 
                 'TenNG' => $request->TenNG,
@@ -429,7 +429,7 @@ class GiaoDichController extends Controller
             'SoDuSauThanhToan' => $SoDuSauThanhToan,
             'NoiDung' => $request->NoiDung,
             'DiemGD' => $request->DiemGD,
-            'MaNV' => Session::get('MaNV'),
+            'MaNV' => session()->get('MaNV'),
             'SoTK' => $request->SoTK,
         ]);
 

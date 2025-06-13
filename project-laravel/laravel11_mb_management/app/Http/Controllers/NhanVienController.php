@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\tblnhanvien;
 use App\Models\tblphongban;
 use App\Models\tblchucvu;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class NhanVienController extends Controller
 {

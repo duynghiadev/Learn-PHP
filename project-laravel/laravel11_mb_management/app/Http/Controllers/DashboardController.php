@@ -7,7 +7,7 @@ use App\Models\tblkhachhang;
 use App\Models\tblruttien;
 use App\Models\tblguitien;
 use App\Models\tblthanhtoanhoadon;
-use DB;
+use Illuminate\Support\Facades\DB; // Add this line
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -29,7 +29,7 @@ class DashboardController extends Controller
             ->groupBy(DB::raw('WEEKDAY(NgayTao)'))
             ->get();
 
-        $dataKhachHangTuan = array_fill(0, 7, 0); // default 7 ngày = 0        
+        $dataKhachHangTuan = array_fill(0, 7, 0); // default 7 ngày = 0
         foreach ($khachHangTuan as $item) {
             $dataKhachHangTuan[$item->thu] = $item->soLuong;
         }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tblnhanvien;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Session;
 
 class AuthController extends Controller
@@ -23,14 +23,14 @@ class AuthController extends Controller
         }
 
         // Lưu session
-        Session::put('TenDangNhap', $nhanVien->TenDangNhap);
-        Session::put('MaNV', $nhanVien->MaNV);
+        session()->put(['TenDangNhap' => $nhanVien->TenDangNhap]);
+        session()->put(['MaNV' => $nhanVien->MaNV]);
 
         return redirect()->route('dashboard')->with('success', 'Đăng nhập thành công!');
     }
     public function logout()
     {
-        Session::flush(); // Xóa toàn bộ session
+        session()->flush(); // Xóa toàn bộ session
         return redirect()->route('homepage');
     }
 }

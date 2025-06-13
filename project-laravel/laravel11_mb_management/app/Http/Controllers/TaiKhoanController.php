@@ -129,7 +129,7 @@ class TaiKhoanController extends Controller
      */
     public function destroy(string $id)
     {
-        $taiKhoan = tbltaikhoan::where('SoTK', $SoTK)->first();
+        $taiKhoan = tbltaikhoan::where('SoTK', $id)->first();
         $taiKhoan->delete();
 
         return redirect()->route('taikhoan.index')->with('success', 'Tài khoản đã được xóa thành công.');
