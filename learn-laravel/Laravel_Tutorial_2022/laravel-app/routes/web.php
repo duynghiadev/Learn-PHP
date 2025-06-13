@@ -7,57 +7,39 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FoodsController;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', [PagesController::class, 'index']);
+Route::get('/', [PagesController::class, 'index'])->name('home');
+
 Route::get('/about', [PagesController::class, 'about']);
 Route::get('/posts', [PostsController::class, 'index']);
 Auth::routes();
 Route::resource('foods', FoodsController::class);
 
-Route::get('/products', [
-    ProductsController::class,
-    'index' //index function of ProductsController
-])->name('products');
+Route::get('/products', [ProductsController::class, 'index'])->name('products');
 
-//how to validate "id only integer" ?
-//Regular Expression
-Route::get('/products/{productName}/{id}', [
-    ProductsController::class,
-    'detail'
-])->where([
-    'productName' => '[a-zA-Z0-9\s]+',
-    'id' => '[0-9]+'
-]);
-Route::get('/products/{productName}', [
-    ProductsController::class,
-    'detail'
-]);
+// Route for product details with productName and id
+Route::get('/products/{productName}/{id}', [ProductsController::class, 'detail'])
+    ->where([
+        'productName' => '[a-zA-Z0-9\s]+',
+        'id' => '[0-9]+'
+    ])->name('products.detail');
 
-Route::get('/products/about', [
-    ProductsController::class,
-    'about'
-]);
+// Route for products/about
+Route::get('/products/about', [ProductsController::class, 'about'])->name('products.about');
 
-Route::get('/', function () {
-    return view('home'); //response a view
-    return env('MY_NAME');
-});
-
-
+// Route for users
 Route::get('/users', function () {
-    return 'This is the users page'; //response a string
+    return 'This is the users page';
 });
-//response an array
-Route::get('/foods', function () {
-    return ['sushi', 'sashimi', 'tofu'];
-});
-//response an object
+
+// Route for aboutMe
 Route::get('/aboutMe', function () {
     return response()->json([
         'name' => 'Nguyen Duc Hoang',
         'email' => 'sunlight4d@gmail.com'
-    ]); //response
+    ]);
 });
-//response another request = redirect
+
+// Route for something (redirect to foods)
 Route::get('/something', function () {
-    return redirect('/foods'); //redirect to foods
+    return redirect('/foods');
 });

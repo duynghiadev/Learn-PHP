@@ -16,9 +16,13 @@
     <h3>name = {{ $name }}</h3>
     <h3>Product:
         @if (is_array($product))
-            {{ $product['name'] }} (Year: {{ $product['year'] }}, Favorite: {{ $product['isFavorite'] ? 'Yes' : 'No' }})
+            {{ $product['name'] }} (Year: {{ $product['year'] ?? 'N/A' }}, Favorite:
+            {{ $product['isFavorite'] ? 'Yes' : 'No' }})
         @else
             {{ $product }}
+        @endif
+        @if (isset($id))
+            , ID: {{ $id }}
         @endif
     </h3>
     <a href="{{ route('products') }}">Link to Products</a>

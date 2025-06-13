@@ -18,10 +18,8 @@ class ProductsController extends Controller
             'year' => 2022,
             'isFavorite' => true,
         ];
-        // Pass $myPhone as $product to match the view's expectation
         $product = $myPhone;
 
-        // Return the view with all variables
         return view('products.index', compact('title', 'x', 'y', 'name', 'product'));
     }
 
@@ -30,19 +28,21 @@ class ProductsController extends Controller
         return 'This is About page';
     }
 
-    public function detail($productName, $id)
+    public function detail($productName, $id = null)
     {
         $phones = [
-            'iphone 15' => 'iphone 15',
-            'samsung' => 'samsung'
+            'iphone15' => ['name' => 'iphone 15', 'year' => 2023, 'isFavorite' => false],
+            'samsung' => ['name' => 'samsung', 'year' => 2023, 'isFavorite' => false]
         ];
 
-        $product = $phones[$productName] ?? 'unknown product';
+        $product = $phones[$productName] ?? ['name' => 'unknown product', 'year' => null, 'isFavorite' => false];
 
-        return view('products.index', [
-            'product' => $product,
-            'productName' => $productName,
-            'id' => $id
-        ]);
+        // Pass default values to avoid undefined variable errors in the view
+        $title = 'Product Details';
+        $x = 0;
+        $y = 0;
+        $name = 'Guest';
+
+        return view('products.index', compact('title', 'x', 'y', 'name', 'product', 'productName', 'id'));
     }
 }
