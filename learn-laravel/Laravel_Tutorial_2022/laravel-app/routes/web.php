@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FoodsController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [PagesController::class, 'index']);
 Route::get('/about', [PagesController::class, 'about']);
@@ -12,46 +13,40 @@ Route::get('/posts', [PostsController::class, 'index']);
 Auth::routes();
 Route::resource('foods', FoodsController::class);
 
-/*Route::get('/products', [
+Route::get('/products', [
     ProductsController::class,
     'index' //index function of ProductsController
 ])->name('products');
-*/
 
 //how to validate "id only integer" ?
 //Regular Expression
-/*
 Route::get('/products/{productName}/{id}', [
     ProductsController::class,
-    'detail' 
+    'detail'
 ])->where([
     'productName' => '[a-zA-Z0-9\s]+',
     'id' => '[0-9]+'
 ]);
-*/
-/*
 Route::get('/products/{productName}', [
-    ProductsController::class, 
-    'detail' 
+    ProductsController::class,
+    'detail'
 ]);
- */
 
-/*
 Route::get('/products/about', [
     ProductsController::class,
-    'about' 
+    'about'
 ]);
 
 Route::get('/', function () {
     return view('home'); //response a view
-    //return env('MY_NAME');
+    return env('MY_NAME');
 });
 
 
 Route::get('/users', function () {
-    return 'This is the users page';//response a string
+    return 'This is the users page'; //response a string
 });
-//response an array 
+//response an array
 Route::get('/foods', function () {
     return ['sushi', 'sashimi', 'tofu'];
 });
@@ -64,6 +59,5 @@ Route::get('/aboutMe', function () {
 });
 //response another request = redirect
 Route::get('/something', function () {
-    return redirect('/foods');//redirect to foods
+    return redirect('/foods'); //redirect to foods
 });
-*/

@@ -32,10 +32,10 @@ class PostsController extends Controller
                     //->count();
                     //->find(3);//find by id
                     //->whereNotNull("body")
-                    //->oldest()                    
+                    //->oldest()
                     //->latest()
                     //->orderBy('id', 'asc')
-                    // ->whereBetween("id", [1, 3])                    
+                    // ->whereBetween("id", [1, 3])
                     // ->where("created_at",">", now()->subDay())
                     // ->orWhere('id', '>', 0)
                     //->select('body')
