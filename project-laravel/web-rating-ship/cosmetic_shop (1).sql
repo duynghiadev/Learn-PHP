@@ -36,16 +36,16 @@ CREATE TABLE `categories`  (
 -- ----------------------------
 -- Records of categories
 -- ----------------------------
-INSERT INTO `categories` VALUES (1, 'Trang điểm', 'Đẹp và rạng ngời', 'images/hPTtizT4zPyGvd9Ywi9vT7RhbQrXv9DKvJJZtq1o.jpg', 1, NULL, '2022-10-13 05:53:59', '2022-10-13 06:01:18');
-INSERT INTO `categories` VALUES (2, 'Chăm sóc da', 'Da sáng rạng ngời', 'images/mIFSoSf5vIlh89lzGtWMqUPrQ1rTTHzoSXW5FgcA.jpg', 1, NULL, '2022-10-13 06:03:24', '2022-10-13 06:03:24');
-INSERT INTO `categories` VALUES (3, 'Chăm sóc tóc', 'Mềm mượt óng ả', 'images/2HANNgZaXoj0nONCyI6WkJqNlbJ4hHFnfb3OcVXF.jpg', 1, NULL, '2022-10-13 06:04:42', '2022-10-13 06:04:42');
-INSERT INTO `categories` VALUES (4, 'Phụ kiện làm đẹp', 'Lan tỏa sắc đẹp', 'images/swooXVEuyWCT8deVJAnwEcKHTMvGUhPHxVksJ762.png', 1, NULL, '2022-10-13 06:06:43', '2022-10-25 08:59:03');
-INSERT INTO `categories` VALUES (5, 'Nước hoa', 'Hương thơm lâu quyến rũ', 'images/2QQuev11FO47AoSxqZt2SXFnwA1Q8gL1c8VfGjzA.jpg', 1, NULL, '2022-10-13 06:07:27', '2022-10-14 05:29:33');
-INSERT INTO `categories` VALUES (6, 'Chăm sóc toàn thân', 'Mềm mại tự tin', 'images/bpI34r9GnLIDvPuNj9D3kc9WSLopEwE0c7MlbEZl.png', 1, NULL, '2022-10-13 06:09:06', '2022-10-13 06:09:06');
-INSERT INTO `categories` VALUES (7, 'Khuyến mại', 'Ưu đãi các sản phẩm', 'images/fiodEcUvoLU2x1deLy9mRzbB6x5RSwcFr4JPhAPd.jpg', 1, NULL, '2022-10-13 06:10:36', '2022-10-13 06:10:36');
-INSERT INTO `categories` VALUES (8, 'Thương hiệu', 'Tin tưởng lựa chọn', 'images/Z9UvO8jqxP1kzr3fG74XRKwdqcZeQwcUufaw2VHo.jpg', 1, NULL, '2022-10-13 06:12:42', '2022-10-13 06:12:42');
-INSERT INTO `categories` VALUES (9, 'mbm', 'mchg', 'images/p3hRZ5dlLRCIcLNxsdtH5Xs3uj1A7M66YwCsqXYC.png', 1, '2022-11-08 13:32:33', '2022-11-08 13:32:25', '2022-11-08 13:32:33');
-INSERT INTO `categories` VALUES (10, ',snm', ',sa;', 'images/CVIPdnaRLXMYVnYtDFlhpIWfofLH1fAPcFiWdGBP.jpg', 1, '2022-11-27 07:07:36', '2022-11-27 07:06:40', '2022-11-27 07:07:36');
+INSERT INTO `categories` VALUES (11, 'Trang điểm', 'Đẹp và rạng ngời', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 05:53:59', '2022-10-13 06:01:18');
+INSERT INTO `categories` VALUES (12, 'Chăm sóc da', 'Da sáng rạng ngời', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:03:24', '2022-10-13 06:03:24');
+INSERT INTO `categories` VALUES (13, 'Chăm sóc tóc', 'Mềm mượt óng ả', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:04:42', '2022-10-13 06:04:42');
+INSERT INTO `categories` VALUES (14, 'Phụ kiện làm đẹp', 'Lan tỏa sắc đẹp', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:06:43', '2022-10-25 08:59:03');
+INSERT INTO `categories` VALUES (15, 'Nước hoa', 'Hương thơm lâu quyến rũ', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:07:27', '2022-10-14 05:29:33');
+INSERT INTO `categories` VALUES (16, 'Chăm sóc toàn thân', 'Mềm mại tự tin', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:09:06', '2022-10-13 06:09:06');
+INSERT INTO `categories` VALUES (17, 'Khuyến mại', 'Ưu đãi các sản phẩm', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:10:36', '2022-10-13 06:10:36');
+INSERT INTO `categories` VALUES (18, 'Thương hiệu', 'Tin tưởng lựa chọn', 'https://picsum.photos/200/300', 1, NULL, '2022-10-13 06:12:42', '2022-10-13 06:12:42');
+INSERT INTO `categories` VALUES (19, 'mbm', 'mchg', 'https://picsum.photos/200/300', 1, '2022-11-08 13:32:33', '2022-11-08 13:32:25', '2022-11-08 13:32:33');
+INSERT INTO `categories` VALUES (20, ',snm', ',sa;', 'https://picsum.photos/200/300', 1, '2022-11-27 07:07:36', '2022-11-27 07:06:40', '2022-11-27 07:07:36');
 
 -- ----------------------------
 -- Table structure for comments

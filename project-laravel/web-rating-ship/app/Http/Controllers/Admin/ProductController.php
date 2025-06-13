@@ -25,17 +25,17 @@ class ProductController extends Controller
 
     public function getlist(Request $request)
     {
-        $products = Product::with(['category','images'])->orderBy('created_at', 'DESC')->get();
+        $products = Product::with(['category', 'images'])->orderBy('created_at', 'DESC')->get();
 
         return Datatables::of($products)->addIndexColumn()
             ->editColumn('name', function ($product) {
                 return '<a href=""><b>' . $product->name . '</b></a>';
             })
             ->editColumn('category_id', function ($product) {
-                return  $product->category?$product->category->name:"";
+                return  $product->category ? $product->category->name : "";
             })
             ->editColumn('trademark_id', function ($product) {
-                return  $product->trademark?$product->trademark->name:"";
+                return  $product->trademark ? $product->trademark->name : "";
             })
             ->editColumn('quantity', function ($product) {
                 return  $product->quantity;
@@ -45,7 +45,7 @@ class ProductController extends Controller
                     <a href="" class="symbol symbol-50px">
                         <div class="symbol-label">
                             <img
-                                src="' .$product->images[0]->image_url. '"
+                                src="' . $product->images[0]->image_url . '"
                                 alt="Hình ảnh" class="w-100"
                             />
                         </div>
@@ -79,11 +79,9 @@ class ProductController extends Controller
                             <div >
                                ' . date("H:i | d/m/Y", strtotime($product->created_at)) . '
                             </div>';
-
             })
-            ->rawColumns(['name','category_id','trademark_id','quantity','image', 'action', 'created_at'])
+            ->rawColumns(['name', 'category_id', 'trademark_id', 'quantity', 'image', 'action', 'created_at'])
             ->make(true);
-
     }
 
     public function create()
@@ -102,7 +100,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->name = $data['name'];
         $product->user_id = Auth::guard('admin')->id();
-//        $product->user_id = 1;
+        //        $product->user_id = 1;
         $product->description = $data['description'];
         $product->quantity = $data['quantity'];
         $product->origin_price = $data['origin_price'];
@@ -117,7 +115,7 @@ class ProductController extends Controller
             foreach ($files as $file) {
                 $name = $file->getClientOriginalName(); //lay tèn file
                 $disk = 'public';
-                $path = Storage::disk($disk)->putFileAs('images/products', $file, $name);
+                $path = Storage::disk($disk)->put('images/products/' . $name, file_get_contents($file));
 
                 $image = new Image();
                 $image->name = $name;
@@ -125,16 +123,16 @@ class ProductController extends Controller
                 $image->product_id = $product->id;
                 $image->save();
             }
-        } 
+        }
         $request->session()->flash('success', 'Tạo sản phẩm mới thành công');
         return redirect()->route('admin.products.index');
     }
 
     public function edit($id)
     {
-        $product = Product::where('id',$id)->with(['category','images'])->first();
+        $product = Product::where('id', $id)->with(['category', 'images'])->first();
         $categories = Category::get();
-        
+
         $trademarks = Trademark::get();
         return view('admin.products.edit')->with([
             'categories' => $categories,
@@ -148,7 +146,7 @@ class ProductController extends Controller
         $data = $request->all();
         $product = Product::findOrFail($id);
         $product->name = $data['name'];
-       $product->user_id = Auth::guard('admin')->user()->id;
+        $product->user_id = Auth::guard('admin')->user()->id;
         $product->description = $data['description'];
         $product->quantity = $data['quantity'];
         $product->origin_price = $data['origin_price'];
@@ -163,7 +161,7 @@ class ProductController extends Controller
             foreach ($files as $file) {
                 $name = $file->getClientOriginalName();
                 $disk = 'public';
-                $path = Storage::disk($disk)->putFileAs('images/products', $file, $name);
+                $path = Storage::disk($disk)->put('images/products/' . $name, file_get_contents($file));
 
                 $image = new Image();
                 $image->name = $name;

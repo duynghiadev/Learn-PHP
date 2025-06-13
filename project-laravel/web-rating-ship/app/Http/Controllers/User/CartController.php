@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Coupon;
 use Carbon\Carbon;
 use Session;
+
 session_start();
 class CartController extends Controller
 {
@@ -21,10 +22,10 @@ class CartController extends Controller
      */
     public function index()
     {
-        if(!Session::get('is_use_coupon')){
-            Session::forget('coupon');
+        if (!session()->get('is_use_coupon')) {
+            session()->forget('coupon');
         };
-        
+
         $items = Cart::content();
         return view('user.product.cart')->with([
             'items' => $items,
@@ -32,46 +33,47 @@ class CartController extends Controller
     }
 
     //check mã giảm giá
-    function checkcoupon(Request $request){
+    function checkcoupon(Request $request)
+    {
         $data = $request->all();
-        $coupon = Coupon::where('coupon_code',$data['coupon'])->first();
-        if($coupon){
+        $coupon = Coupon::where('coupon_code', $data['coupon'])->first();
+        if ($coupon) {
             $count_coupon = $coupon->count();
-            if($count_coupon>0){ 
-                $coupon_session = Session::get('coupon');
-                if($coupon_session==true){
+            if ($count_coupon > 0) {
+                $coupon_session = session()->get('coupon');
+                if ($coupon_session == true) {
                     $is_avaiable = 0;
-                    if($is_avaiable==0){
+                    if ($is_avaiable == 0) {
                         $cou[] = array(
                             'coupon_code' => $coupon->coupon_code,
                             'coupon_condition' => (int)$coupon->coupon_condition,
                             'coupon_number' => (int)$coupon->coupon_number,
 
                         );
-                        Session::put('coupon',$cou);
+                        session()->put('coupon', $cou);
                     }
-                }else{
+                } else {
                     $cou[] = array(
-                            'coupon_code' => $coupon->coupon_code,
-                            'coupon_condition' => $coupon->coupon_condition,
-                            'coupon_number' => $coupon->coupon_number,
+                        'coupon_code' => $coupon->coupon_code,
+                        'coupon_condition' => $coupon->coupon_condition,
+                        'coupon_number' => $coupon->coupon_number,
 
-                        );
-                    Session::put('coupon',$cou);
+                    );
+                    session()->put('coupon', $cou);
                 }
-                Session::put('is_use_coupon',true);
-                Session::save();
-                return redirect()->back()->with('message','Thêm mã giảm giá thành công');
+                session()->put('is_use_coupon', true);
+                session()->save();
+                return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
             }
-
-        }else{
-            return redirect()->back()->with('error','Mã giảm giá không đúng');
+        } else {
+            return redirect()->back()->with('error', 'Mã giảm giá không đúng');
         }
     }
 
-    public function add(Request $request, $id=null){
+    public function add(Request $request, $id = null)
+    {
         $qty = $request->get('qty');
-        if(empty($qty)){
+        if (empty($qty)) {
             $qty = 1;
         }
         $product = Product::find($id);
@@ -84,37 +86,34 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        
-    }
+    public function create() {}
 
-    public function increment($rowId){
+    public function increment($rowId)
+    {
         $cart = Cart::get($rowId);
         $product = Product::find($cart->id);
-        if($cart->qty+1<=$product->quantity){
-            Cart::update($rowId, $cart->qty+1);
+        if ($cart->qty + 1 <= $product->quantity) {
+            Cart::update($rowId, $cart->qty + 1);
         }
         return redirect()->route('user.product.cart');
     }
 
-    public function decrement($rowId){
+    public function decrement($rowId)
+    {
         $cart = Cart::get($rowId);
-        if($cart->qty-1>=env('MIN_BUY')){
-            Cart::update($rowId, $cart->qty-1);
+        if ($cart->qty - 1 >= env('MIN_BUY')) {
+            Cart::update($rowId, $cart->qty - 1);
         }
         return redirect()->route('user.product.cart');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -157,9 +156,10 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    
 
-    public function remove($id){
+
+    public function remove($id)
+    {
         Cart::remove($id);
         return redirect()->route('user.product.cart');
     }
