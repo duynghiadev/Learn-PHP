@@ -3,48 +3,46 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//controller has been overwritten
+
 class ProductsController extends Controller
 {
     public function index()
     {
-        //how to pass data to view ?
+        // Define all variables to pass to the view
         $title = 'Laravel Course from Nguyen Duc Hoang';
         $x = 1;
         $y = 2;
-        return view('products.index', compact('title', 'x', 'y'));
         $name = 'Hoang';
-        return view('products.index')->with('name', $name);
-        //'with' method can only send 1 parameter
-        //send an associative array
         $myPhone = [
             'name' => 'iphone 14',
             'year' => 2022,
             'isFavorite' => true,
         ];
-        return view('products.index', compact('myPhone'));
-        //send directly
-        return view('products.index', [
-            'myPhone' => $myPhone
-        ]);
-        print_r(route('products')); //it prints route's name
-        return view('products.index');
+        // Pass $myPhone as $product to match the view's expectation
+        $product = $myPhone;
+
+        // Return the view with all variables
+        return view('products.index', compact('title', 'x', 'y', 'name', 'product'));
     }
+
     public function about()
     {
         return 'This is About page';
     }
+
     public function detail($productName, $id)
     {
-        return "product's name = " . $productName .
-            " ,product's id = " . $id;
-
         $phones = [
             'iphone 15' => 'iphone 15',
             'samsung' => 'samsung'
         ];
+
+        $product = $phones[$productName] ?? 'unknown product';
+
         return view('products.index', [
-            'product' => $phones[$productName] ?? 'unknown product',
+            'product' => $product,
+            'productName' => $productName,
+            'id' => $id
         ]);
     }
 }
