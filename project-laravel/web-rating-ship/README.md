@@ -1,6 +1,20 @@
 -   1 terminal run php artisan serve
 -   1 terminal run npm run dev
 
+admin
+
+-   url: http://localhost:8000/admin/login
+-   email: admin@gmail.com
+-   pass: 123456
+
+user
+
+-   http://localhost:8000/login
+-   email: lndnghia.20it7@vku.udn.vn
+-   pass: 123456
+
+Lưu ý: mở 2 tab khác nhau để run 2 account (1 tab ẩn danh, 1 tab bình thường)
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
