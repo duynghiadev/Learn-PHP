@@ -1,25 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>This is About Page, with shared Header,Footer</h1>
-{{
-    $x = 1;
- }}
-@if ($x > 2)
-<h3>x is greater than 2</h3>
-@elseif($x < 0) <h3>x is less than 10</h3>
-  @else
-  <h3>All conditions does not match</h3>
-  @endif
-  {{-- unless = "if not" --}}
+    <h1>This is About Page, with shared Header,Footer</h1>
+    {{ $x = 1 }}
+    @if ($x > 2)
+        <h3>x is greater than 2</h3>
+    @elseif($x < 0)
+        <h3>x is less than 10</h3>
+    @else
+        <h3>All conditions does not match</h3>
+    @endif
+    {{-- unless = "if not" --}}
 
-  {{-- @unless (empty($name))
+    {{-- @unless (empty($name))
     <h3>Name is not empty</h3>
 @endunless --}}
-  {{-- @if(!empty($name))
+    {{-- @if (!empty($name))
     <h3>Name is not empty, haha</h3>
 @endif --}}
-  {{--
+    {{--
 @empty(!$name)
     <h3>Name is NOT empty</h3>
 @endempty
@@ -59,5 +58,4 @@
     {{ $i++; }}
     @endwhile
     --}}
-
-    @endsection
+@endsection
