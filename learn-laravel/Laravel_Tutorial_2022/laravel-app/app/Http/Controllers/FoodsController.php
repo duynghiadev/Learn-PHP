@@ -17,10 +17,10 @@ class FoodsController extends Controller
      */
     public function index()
     {
-        $foods = Food::all(); //SELECT * FROM foods;        
+        $foods = Food::all(); //SELECT * FROM foods;
         // $food = Food::where('name','=','sushi')
         //             ->firstOrFail();
-        
+
         //dd($foods);
         //var_dump($foods);
         return view('foods.index', [
@@ -63,9 +63,9 @@ class FoodsController extends Controller
         ]);
         //client image's name and server's image name
         //must be different, why ??
-        $generatedImageName = 'image'.time().'-'
-                                .$request->name.'.'
-                                .$request->image->extension();
+        $generatedImageName = 'image' . time() . '-'
+            . $request->name . '.'
+            . $request->image->extension();
         //move to a folder
         $request->image->move(public_path('images'), $generatedImageName);
         //dd('This is store function');
@@ -137,12 +137,12 @@ class FoodsController extends Controller
     public function update(CreateValidationRequest $request, $id)
     {
         $request->validated();
-        $food = Food::where('id', $id)  
-                ->update([
-                    'name' => $request->input('name'),
-                    'count' => $request->input('count'),
-                    'description' => $request->input('description'),
-                ]);
+        $food = Food::where('id', $id)
+            ->update([
+                'name' => $request->input('name'),
+                'count' => $request->input('count'),
+                'description' => $request->input('description'),
+            ]);
         return redirect('/foods');
     }
 

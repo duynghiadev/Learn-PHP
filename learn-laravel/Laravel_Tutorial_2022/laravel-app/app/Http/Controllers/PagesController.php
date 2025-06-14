@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('index');
     }
-    public function about() {
+    public function about()
+    {
         $name = "Tony";
-        $names = array('Hoang', 'David', 'John', 'Micheal','Taylor');
+        $names = array('Hoang', 'David', 'John', 'Micheal', 'Taylor');
         //$names = [];
         return view('about', [
             'names' => $names,
